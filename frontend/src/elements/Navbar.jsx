@@ -1,0 +1,74 @@
+import { Link } from "react-router-dom";
+import { useMovieContext } from "../contexts/MovieContext";
+import SearchComponent from "../elements/SearchComponent";
+import "../css/navbar.css";
+
+function Navbar() {
+  return (
+    <nav className='navbar navbar-expand-lg bg-body-tertiary'>
+      <div className='container-fluid'>
+        <a className='navbar-brand' href='/'>
+          SilverScreen
+        </a>
+
+        <button
+          className='navbar-toggler'
+          type='button'
+          data-bs-toggle='collapse'
+          data-bs-target='#navbarSupportedContent'
+          aria-controls='navbarSupportedContent'
+          aria-expanded='false'
+          aria-label='Toggle navigation'>
+          <span className='navbar-toggler-icon'></span>
+        </button>
+
+        <div className='collapse navbar-collapse' id='navbarSupportedContent'>
+          <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
+            <li className='nav-item'>
+              <Link
+                to='/'
+                className={`nav-link ${
+                  location.pathname === "/" ? "active" : ""
+                }`}>
+                Discover
+              </Link>
+            </li>
+
+            <li className='nav-item'>
+              <Link
+                to='/favorites'
+                className={`nav-link ${
+                  location.pathname === "/favorites" ? "active" : ""
+                }`}>
+                Favorites
+              </Link>
+            </li>
+
+            <li className='nav-item'>
+              <Link
+                to='/watched'
+                className={`nav-link ${
+                  location.pathname === "/watched" ? "active" : ""
+                }`}>
+                Watched
+              </Link>
+            </li>
+
+            <li className='nav-item'>
+              <Link
+                to='/watchlist'
+                className={`nav-link ${
+                  location.pathname === "/watchlist" ? "active" : ""
+                }`}>
+                Watchlist
+              </Link>
+            </li>
+          </ul>
+          <SearchComponent />
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+export default Navbar;

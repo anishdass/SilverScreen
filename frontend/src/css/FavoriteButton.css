@@ -1,0 +1,35 @@
+.favorite-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.favorite-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: #6c757d; /* Default color */
+  transition: fill 0.3s ease;
+}
+
+.favorite-btn:hover {
+  background-color: #f8f9fa;
+}
+
+.favorite-btn.active {
+  color: red;
+  background-color: #28a745; /* Green background for active state */
+  border-radius: 50%; /* Optional, makes it a circle */
+}
+
+.favorite-btn.active svg {
+  fill: #ffffff; /* Change icon color to white when active */
+}
+
+.favorite-btn:active {
+  transform: scale(0.95); /* Slightly reduce size on button press */
+}

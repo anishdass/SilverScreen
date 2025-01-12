@@ -1,0 +1,127 @@
+.comment-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.comment-card {
+  width: 95%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.comment-card:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.comment-card h6 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #007bff;
+  margin-bottom: 5px;
+}
+
+.comment-card .username:hover {
+  cursor: pointer;
+}
+
+.comment-card p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.comment-card small {
+  color: #888;
+  font-size: 0.875rem;
+  font-style: italic;
+}
+.comment-card {
+  width: 95%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.profile-section {
+  display: flex;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.profile-picture {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  padding: 5px;
+  border: 2px solid #ddd;
+  object-fit: cover;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.profile-section .username {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  align-self: center;
+}
+
+@media (max-width: 768px) {
+  .comment-card {
+    padding: 12px;
+  }
+
+  .comment-card h6 {
+    font-size: 1rem;
+  }
+
+  .comment-card p {
+    font-size: 0.95rem;
+  }
+
+  .comment-card small {
+    font-size: 0.8rem;
+  }
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+}
+
+.actionButtons button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.actionButtons button svg {
+  fill: #555;
+  transition: fill 0.3s ease;
+}
+
+.actionButtons button:hover svg {
+  fill: #007bff;
+}

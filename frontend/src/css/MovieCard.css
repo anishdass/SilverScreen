@@ -1,0 +1,85 @@
+.movie-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.movie-card {
+  position: relative;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 400px;
+  width: 250px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.movie-card:hover .movie-overlay {
+  opacity: 1;
+}
+
+.movie-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.8)
+  );
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  backdrop-filter: blur(8px);
+  transition: opacity 0.2s ease;
+}
+
+.action-buttons {
+  position: center;
+  bottom: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 1rem;
+}
+
+.action-buttons div {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .movie-card {
+    font-size: 0.9rem;
+  }
+
+  .favorite-btn,
+  .watched-btn,
+  .watchlist-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+  }
+}
