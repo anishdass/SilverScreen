@@ -12,6 +12,7 @@ import {
   getCastAndCrewDetails,
   getStreamingDetails,
   getGenres,
+  getCurrentCountry,
 } from "../utils/helpers";
 
 import {
@@ -20,7 +21,6 @@ import {
   LOGO_PATH_KEY,
   STREAMING_KEY,
   POSTER_PATH_KEY,
-  CURRENT_COUNTRY,
   BACKDROP_PATH_KEY,
 } from "../utils/constants";
 import FavoriteButton from "../elements/FavoriteButton";
@@ -34,6 +34,7 @@ function MovieDetails() {
   const [casts, setCasts] = useState([]);
   const [crewMembers, setCrew] = useState([]);
   const [genres, setGenres] = useState([]);
+  const [currentCountry, setCurrentCountry] = useState([]);
   const {
     setLoading,
     setGenreClicked,
@@ -48,17 +49,20 @@ function MovieDetails() {
     const loadData = async () => {
       setLoading(true);
       try {
-        const [videos, castCrew, streaming, allGenres] = await Promise.all([
-          getVideoDetails(movie.id),
-          getCastAndCrewDetails(movie.id),
-          getStreamingDetails(movie.id),
-          getGenres(),
-        ]);
+        const [videos, castCrew, streaming, allGenres, curCountry] =
+          await Promise.all([
+            getVideoDetails(movie.id),
+            getCastAndCrewDetails(movie.id),
+            getStreamingDetails(movie.id),
+            getGenres(),
+            getCurrentCountry(),
+          ]);
         setVideos(videos);
         setCasts(castCrew.cast || []);
         setCrew(castCrew.crew || []);
         setStreamingData(streaming || {});
         setGenres(allGenres.genres || {});
+        setCurrentCountry(curCountry || "");
       } catch (error) {
         setError("Failed to load data");
       } finally {
@@ -86,8 +90,8 @@ function MovieDetails() {
   };
 
   const renderStreamingPlatforms = () =>
-    streamingData[CURRENT_COUNTRY]?.[STREAMING_KEY]?.length > 0 ? (
-      streamingData[CURRENT_COUNTRY][STREAMING_KEY].map((platform) => (
+    streamingData[currentCountry]?.[STREAMING_KEY]?.length > 0 ? (
+      streamingData[currentCountry][STREAMING_KEY].map((platform) => (
         <img
           key={platform.display_priority}
           className='streaming-platform img'

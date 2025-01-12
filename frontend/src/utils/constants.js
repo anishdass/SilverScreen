@@ -19,6 +19,5 @@ export const LANG = "en-US";
 export const STREAMING_KEY = "flatrate";
 
 export const URL_TO_GET_CURRENT_COUNTRY = "https://ipapi.co/json/";
-export const CURRENT_COUNTRY = await getCurrentCountry();
 
 export const NAME_OF_THE_APP = "SilverScreen";
