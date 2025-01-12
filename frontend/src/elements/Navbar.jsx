@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
-import { useMovieContext } from "../contexts/MovieContext";
 import SearchComponent from "../elements/SearchComponent";
+import { NAME_OF_THE_APP } from "../utils/constants";
 import "../css/navbar.css";
+import "../css/fonts.css";
 
 function Navbar() {
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
       <div className='container-fluid'>
         <a className='navbar-brand' href='/'>
-          SilverScreen
+          {NAME_OF_THE_APP}
         </a>
 
         <button

@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Maitree:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Anton+SC&display=swap");
 
 /* Custom fonts */
 .section-heading {
@@ -30,4 +31,10 @@
   font-weight: 500;
   font-style: normal;
   font-variation-settings: "wdth" 100;
+}
+
+.navbar-brand {
+  font-family: "Anton SC", serif;
+  font-weight: 400;
+  font-style: normal;
 }
