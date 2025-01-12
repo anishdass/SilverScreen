@@ -1,5 +1,5 @@
 import "../css/MovieDetails.css";
-import "../css/fonts.css";
+import "../css/Fonts.css";
 import Divider from "../elements/Divider";
 import CastAndCrewSection from "../components/CastAndCrewSection";
 import PromoSection from "../components/PromoSection";
