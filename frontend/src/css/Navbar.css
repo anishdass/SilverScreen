@@ -12,6 +12,19 @@
   font-weight: bold;
 }
 
+.logo-image {
+  margin-right: 10px; /* Adjust the spacing as needed */
+  width: 40px; /* Example size for the image */
+  height: auto; /* Maintain aspect ratio */
+  vertical-align: middle; /* Align with the text */
+}
+
+.navbar-brand {
+  font-size: 18px; /* Example font size for the app name */
+  color: #333; /* Example text color */
+  text-decoration: none; /* Remove underline */
+}
+
 .navbar-links {
   display: flex;
   gap: 2rem;

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import SearchComponent from "../elements/SearchComponent";
 import { NAME_OF_THE_APP } from "../utils/constants";
+import Logo from "../images/Logo.jpeg";
+import SearchComponent from "../elements/SearchComponent";
 import "../css/navbar.css";
 import "../css/fonts.css";
 
@@ -8,6 +9,10 @@ function Navbar() {
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
       <div className='container-fluid'>
+        <a href='/'>
+          <img className='logo-image' src={Logo} alt='Logo' />
+        </a>
+
         <a className='navbar-brand' href='/'>
           {NAME_OF_THE_APP}
         </a>
