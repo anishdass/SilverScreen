@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tab, Nav } from "react-bootstrap";
 import "../css/Cast.css";
-import "../css/fonts.css";
+import "../css/Fonts.css";
 import { useMovieContext } from "../contexts/MovieContext";
 import {
   IMAGE_BASE_URL,

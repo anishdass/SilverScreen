@@ -1,4 +1,4 @@
-import "../css/home.css";
+import "../css/Home.css";
 import { useMovieContext } from "../contexts/MovieContext";
 import MoviePage from "../components/MoviePage";
 import { useEffect } from "react";

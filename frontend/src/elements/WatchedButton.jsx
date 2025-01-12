@@ -1,5 +1,5 @@
 import { useMovieContext } from "../contexts/MovieContext";
-import "../css/watchedbutton.css";
+import "../css/WatchedButton.css";
 import EyeIcon from "../icons/EyeIcon";
 
 function Watched({ movie }) {

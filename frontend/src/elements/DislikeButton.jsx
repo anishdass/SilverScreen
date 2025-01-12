@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../css/dislikeButton.css";
+import "../css/DislikeButton.css";
 import DislikeIcon from "../icons/DislikeIcon";
 
 function DislikeButton() {

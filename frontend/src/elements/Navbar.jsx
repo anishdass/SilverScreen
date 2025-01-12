@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { NAME_OF_THE_APP } from "../utils/constants";
 import Logo from "../images/Logo.jpeg";
 import SearchComponent from "../elements/SearchComponent";
-import "../css/navbar.css";
-import "../css/fonts.css";
+import "../css/Navbar.css";
+import "../css/Fonts.css";
 
 function Navbar() {
   return (
