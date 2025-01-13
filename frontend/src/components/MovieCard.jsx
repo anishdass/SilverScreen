@@ -7,6 +7,7 @@ import WatchlistButton from "../elements/WatchlistButton";
 import Card from "../elements/Card";
 
 function MovieCard({ movie }) {
+  console.log(movie.id);
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -13,6 +13,7 @@ function CommentBox({ label, rows, placeholderText, movie }) {
     e.preventDefault();
     storeComment(comment, movie);
     setComment("");
+    window.history.go(0);
   };
 
   const handleKeyDown = (e) => {

@@ -1,15 +1,71 @@
-.cast-and-crew-section .card {
+.member-section .card {
   width: 200px;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.cast-and-crew-section .card img {
+.member-section .card img {
   height: 250px;
 }
 
-.cast-and-crew-section .card .movie-title {
+.member-section .card .movie-title {
   font-size: 0.9rem;
   padding: 6px;
   width: 85%;
+}
+
+.card-wrapper {
+  position: relative;
+}
+
+.card-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0 15px 35px 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-container:hover .overlay {
+  opacity: 1;
+}
+
+.overlay-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: scale(1);
+  padding: 8px 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid #fff;
+  border-radius: 3px;
+  opacity: 1;
+}
+
+.overlay:hover .overlay-text {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.card-container:hover .overlay-text {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.overlay-text:hover {
+  cursor: pointer;
 }

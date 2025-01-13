@@ -18,16 +18,6 @@ function Pages() {
   return (
     <nav aria-label='...'>
       <ul className='pagination'>
-        {/* First */}
-        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-          <button
-            className='page-link'
-            onClick={() => setCurrentPage(1)}
-            disabled={currentPage === 1}>
-            First
-          </button>
-        </li>
-
         {/* Previous */}
         <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
           <button
@@ -48,19 +38,6 @@ function Pages() {
             onClick={() => setCurrentPage(currentPage + 1)}
             disabled={currentPage === totalPages}>
             Next
-          </button>
-        </li>
-
-        {/* Last */}
-        <li
-          className={`page-item ${
-            currentPage === totalPages ? "disabled" : ""
-          }`}>
-          <button
-            className='page-link'
-            onClick={() => setCurrentPage(totalPages)}
-            disabled={currentPage === totalPages}>
-            Last
           </button>
         </li>
       </ul>

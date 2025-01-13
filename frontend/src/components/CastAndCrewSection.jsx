@@ -5,24 +5,35 @@ import "../css/CastAndCrewSection.css";
 
 function CastAndCrewSection({ title, data }) {
   const navigate = useNavigate();
+  console.log(data);
 
-  const onCastCardClicked = async (e) => {
-    const castData = await getCastInfo(e.id);
+  const onCastCardClicked = async (id) => {
+    console.log(id);
+    const castData = await getCastInfo(id);
     sessionStorage.setItem("castInfo", JSON.stringify(castData));
     navigate(`/cast/${castData.id}`);
   };
 
   return (
-    <div className='cast-section mt-4'>
+    <div className='member-section mt-4'>
       <h2 className='display-5 text-Secondary section-heading'>{title}</h2>
-      <div className='overflow-scroll d-flex flex-row scrollbar-hidden cast-and-crew-section'>
+      <div className='overflow-scroll d-flex flex-row scrollbar-hidden'>
         {data
           .filter(
             (value, index, self) =>
               index === self.findIndex((t) => t.id === value.id)
           )
-          .map((cast) => (
-            <Card data={cast} onCardClicked={onCastCardClicked} key={cast.id} />
+          .map((member) => (
+            <div className='card-container' key={member.id}>
+              <Card data={member} />
+              <div
+                className='overlay'
+                onClick={() => onCastCardClicked(member.id)}>
+                <span className='overlay-text'>
+                  {member.cast_id ? member.name : member.job}
+                </span>{" "}
+              </div>
+            </div>
           ))}
       </div>
     </div>

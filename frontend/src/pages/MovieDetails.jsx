@@ -44,6 +44,7 @@ function MovieDetails() {
     streamingData,
     setStreamingData,
   } = useMovieContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadData = async () => {
@@ -186,18 +187,15 @@ function MovieDetails() {
                 {casts.length > 0 && (
                   <Tab.Pane eventKey='cast'>
                     <CastAndCrewSection data={casts} />
-                    <Divider />
                   </Tab.Pane>
                 )}
                 {crewMembers.length > 0 && (
                   <Tab.Pane eventKey='crew'>
                     <CastAndCrewSection data={crewMembers} />
-                    <Divider />
                   </Tab.Pane>
                 )}
                 <Tab.Pane eventKey='promo'>
                   <PromoSection />
-                  <Divider />
                 </Tab.Pane>
               </Tab.Content>
             </div>

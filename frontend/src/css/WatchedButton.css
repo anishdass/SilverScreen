@@ -12,17 +12,19 @@
 .watched-btn svg {
   width: 24px;
   height: 24px;
-  fill: #6c757d; /* Default color */
+  fill: white;
   transition: fill 0.3s ease;
 }
 
 .watched-btn:hover {
-  background-color: #f8f9fa;
+  background-color: black;
+  color: grey;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .watched-btn.active {
   color: grey;
-  background-color: #28a745; /* Green background for active state */
   border-radius: 50%; /* Optional, makes it a circle */
 }
 
