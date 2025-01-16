@@ -11,7 +11,6 @@ function Search() {
     currentPage,
     setLoading,
     setError,
-    genreId,
     setTotalResults,
     setMovies,
     searchQuery,
@@ -19,32 +18,53 @@ function Search() {
 
   useEffect(() => {
     const loadSearchedMovies = async () => {
+      if (!searchQuery.trim()) {
+        setError("Search query cannot be empty.");
+        setMovies([]);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      setError("");
+
       try {
         const searchedMovies = await searchMoviesByQuery(
           searchQuery,
           currentPage
         );
-        setTotalResults(searchedMovies.total_results);
-        setMovies(searchedMovies.data);
+
+        setTotalResults(searchedMovies.total_results || 0);
+        setMovies(searchedMovies.data || []);
       } catch (e) {
-        setError("Failed to load movies");
+        setError("Failed to load movies. Please try again.");
       } finally {
         setLoading(false);
       }
     };
+
     loadSearchedMovies();
-  }, [genreId, currentPage, setTotalResults, setMovies, setError, setLoading]);
+  }, [
+    searchQuery,
+    currentPage,
+    setTotalResults,
+    setMovies,
+    setError,
+    setLoading,
+  ]);
 
   return (
     <div className='search'>
       {error && <div className='error-message'>{error}</div>}
+
       <div className='movie-grid-heading'>
-        {searchQuery ? (
+        {searchQuery && !loading && !error && (
           <p>
-            Search Result for '<i>{searchQuery}</i>'
+            Search Results for '<i>{searchQuery}</i>'
           </p>
-        ) : null}
+        )}
       </div>
+
       {loading ? <div className='loading'>Loading...</div> : <MoviePage />}
     </div>
   );

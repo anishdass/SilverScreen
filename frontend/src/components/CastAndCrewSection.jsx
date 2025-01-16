@@ -5,10 +5,8 @@ import "../css/CastAndCrewSection.css";
 
 function CastAndCrewSection({ title, data }) {
   const navigate = useNavigate();
-  console.log(data);
 
   const onCastCardClicked = async (id) => {
-    console.log(id);
     const castData = await getCastInfo(id);
     sessionStorage.setItem("castInfo", JSON.stringify(castData));
     navigate(`/cast/${castData.id}`);

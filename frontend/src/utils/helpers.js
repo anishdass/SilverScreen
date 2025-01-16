@@ -78,9 +78,21 @@ export function getCastAndCrewDetails(movieId) {
 }
 
 // Get Genres
-export function getGenres() {
-  const baseUrl = `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=${LANG}`;
-  return fetchData(baseUrl);
+export async function getGenres() {
+  const allGenres = { genres: JSON.parse(localStorage.getItem("genres")) };
+
+  if (allGenres.genres && Object.keys(allGenres.genres).length > 0) {
+    return allGenres;
+  } else {
+    console.log("Entering else block");
+    const fetchedGenres = await fetchData(
+      `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=${LANG}`
+    );
+
+    localStorage.setItem("genres", JSON.stringify(fetchedGenres.genres));
+
+    return { genres: fetchedGenres.genres };
+  }
 }
 
 export function getArtistFilmography(castId) {

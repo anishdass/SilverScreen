@@ -89,6 +89,7 @@ export const fetchStreamingDetails = async (url) => {
       throw new Error("Failed to fetch genres");
     }
   } catch (error) {
+    return "GB";
     console.error("Error fetching genres from API:", error);
     throw error;
   }

@@ -4,14 +4,24 @@ import { useNavigate } from "react-router-dom";
 
 function SearchComponent() {
   const { setSearchQuery, searchQuery, loading } = useMovieContext();
-
   const navigate = useNavigate();
 
-  const handleSearch = async (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
-    if (loading) return;
-    navigate(`movies/search/searchQuery/${searchQuery}`);
+
+    // Ensure the search query is not empty or whitespace
+    if (!searchQuery.trim()) {
+      alert("Please enter a valid search query.");
+      return;
+    }
+
+    // Prevent navigation if loading
+    if (loading) {
+      return;
+    }
+
+    // Navigate to the search results page
+    navigate(`/movies/search/searchQuery/${searchQuery}`);
   };
 
   return (
@@ -22,10 +32,13 @@ function SearchComponent() {
         placeholder='Search for movies'
         aria-label='Search'
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={(e) => setSearchQuery(e.target.value.trimStart())} // Prevent leading spaces
       />
-      <button className='btn btn-outline-success' type='submit'>
-        Search
+      <button
+        className='btn btn-outline-success'
+        type='submit'
+        disabled={loading}>
+        {loading ? "Searching..." : "Search"}
       </button>
     </form>
   );

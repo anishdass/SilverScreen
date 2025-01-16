@@ -1,6 +1,6 @@
 import "../css/MovieDetails.css";
 import "../css/Fonts.css";
-import Divider from "../elements/Divider";
+
 import CastAndCrewSection from "../components/CastAndCrewSection";
 import PromoSection from "../components/PromoSection";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -23,11 +23,16 @@ import {
   POSTER_PATH_KEY,
   BACKDROP_PATH_KEY,
 } from "../utils/constants";
+
 import FavoriteButton from "../elements/FavoriteButton";
 import WatchedButton from "../elements/WatchedButton";
 import WatchlistButton from "../elements/WatchlistButton";
 import CommentBox from "../elements/CommentBox";
 import CommentArea from "../elements/CommentArea";
+import GenreButton from "../elements/GenreButton";
+import Divider from "../elements/Divider";
+import YourRating from "../elements/YourRating";
+import Star from "../icons/Star";
 
 function MovieDetails() {
   const { state: { movie } = {} } = useLocation();
@@ -56,14 +61,14 @@ function MovieDetails() {
             getCastAndCrewDetails(movie.id),
             getStreamingDetails(movie.id),
             getGenres(),
-            getCurrentCountry(),
+            //getCurrentCountry(),
           ]);
         setVideos(videos);
         setCasts(castCrew.cast || []);
         setCrew(castCrew.crew || []);
         setStreamingData(streaming || {});
         setGenres(allGenres.genres || {});
-        setCurrentCountry(curCountry || "");
+        setCurrentCountry(curCountry ? curCountry : "UK");
       } catch (error) {
         setError("Failed to load data");
       } finally {
@@ -72,6 +77,8 @@ function MovieDetails() {
     };
     loadData();
   }, [movie.id, setLoading, setError, setVideos, setStreamingData]);
+
+  console.log(movie);
 
   const movieGenres = useMemo(
     () =>
@@ -109,7 +116,7 @@ function MovieDetails() {
     );
 
   return (
-    <div className='container mt-4'>
+    <div className='container'>
       <div className='backdrop-img'>
         <img
           src={`${IMAGE_BASE_URL}w1280${movie[BACKDROP_PATH_KEY] || ""}`}
@@ -129,6 +136,7 @@ function MovieDetails() {
         </div>
 
         {/* Movie Details */}
+
         <div className='movie-details-section col-md-8'>
           {/* Movie title with action buttons */}
           <div className='movie-title-section'>
@@ -143,21 +151,30 @@ function MovieDetails() {
             <WatchlistButton movie={movie} />
           </div>
 
-          {/* Genres */}
-          <div>
-            {movieGenres &&
-              movieGenres.map((genre) => (
-                <button
-                  key={genre}
-                  className='btn btn-dark rounded-pill genre-button'
-                  onClick={() => handleGenreSearch(genre)}>
-                  {genre}
-                </button>
-              ))}
-          </div>
-
           {/* Movie overview */}
           <div className='movie-overview description'>{movie.overview}</div>
+
+          <div className='genre-and-rating-section d-flex align-items-center'>
+            <GenreButton
+              handleGenreSearch={handleGenreSearch}
+              movieGenres={movieGenres}
+            />
+            {movie.vote_count > 500 && (
+              <div className='rating-section'>
+                <div className='star'>
+                  <Star
+                    rating={(Math.round(movie.vote_average * 10) / 10).toFixed(
+                      1
+                    )}
+                  />
+                </div>
+                <span className='rating-value'>
+                  {(Math.round(movie.vote_average * 10) / 10).toFixed(1)}
+                </span>
+              </div>
+            )}
+          </div>
+          <YourRating />
 
           {/* Streaming information */}
           <div className='streaming-platforms'>
