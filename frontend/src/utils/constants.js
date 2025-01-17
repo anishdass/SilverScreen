@@ -12,7 +12,8 @@ export const DEFAULT_PROFILE_IMAGE =
 export const DEFAULT_POSTER_IMAGE =
   "https://dummyimage.com/300x450/000/fff&text=No+Poster+Found";
 
-export const API_KEY = "3570b521118764bbb1a871af55e9fb5c";
+export const TMDB_API_KEY = "3570b521118764bbb1a871af55e9fb5c";
+export const OMDB_API_KEY = "4a93452";
 export const BASE_URL = "https://api.themoviedb.org/3";
 
 export const LANG = "en-US";

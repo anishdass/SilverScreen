@@ -4,6 +4,7 @@ import Logo from "../images/Logo.jpeg";
 import SearchComponent from "../elements/SearchComponent";
 import "../css/Navbar.css";
 import "../css/Fonts.css";
+import "../css/Logo.css";
 
 function Navbar() {
   return (

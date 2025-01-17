@@ -4,6 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Anton+SC&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Geist:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Red+Rose:wght@700&display=swap");
 
 /* Custom fonts */
 .section-heading {
@@ -44,5 +45,19 @@
   font-family: "Geist", serif;
   font-optical-sizing: auto;
   font-weight: 600;
+  font-style: normal;
+}
+
+.rating-value {
+  font-family: "Red Rose", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.rating-vote-count {
+  font-family: "Red Rose", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
   font-style: normal;
 }

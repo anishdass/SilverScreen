@@ -7,10 +7,11 @@ import {
 } from "../services/API";
 
 import {
-  API_KEY,
+  TMDB_API_KEY,
   BASE_URL,
   LANG,
   URL_TO_GET_CURRENT_COUNTRY,
+  OMDB_API_KEY,
 } from "./constants";
 
 export function formatDate(dateString) {
@@ -27,33 +28,33 @@ export function getJobList(artistAsCrew) {
 
 // Popular Movies
 export const searchPopularMovies = async (pageNumber) => {
-  const baseUrl = `${BASE_URL}/movie/popular?api_key=${API_KEY}`;
+  const baseUrl = `${BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}`;
   return fetchPaginatedMovies(baseUrl, pageNumber);
 };
 
 // Genre Movies
 export const searchMoviesByGenre = async (id, pageNumber) => {
-  const baseUrl = `${BASE_URL}/discover/movie?api_key=${API_KEY}`;
+  const baseUrl = `${BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}`;
   const extraParams = `&with_genres=${id}`;
   return fetchPaginatedMovies(baseUrl, pageNumber, extraParams);
 };
 
 // Search Movies
 export const searchMoviesByQuery = async (query, pageNumber) => {
-  const baseUrl = `${BASE_URL}/search/movie?api_key=${API_KEY}`;
+  const baseUrl = `${BASE_URL}/search/movie?api_key=${TMDB_API_KEY}`;
   const extraParams = `&query=${encodeURIComponent(query)}`;
   return fetchPaginatedMovies(baseUrl, pageNumber, extraParams);
 };
 
 // Get promotional material details
 export function getVideoDetails(movieId) {
-  const baseUrl = `${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}&language=${LANG}`;
+  const baseUrl = `${BASE_URL}/movie/${movieId}/videos?api_key=${TMDB_API_KEY}&language=${LANG}`;
   return fetchVideoDetails(baseUrl);
 }
 
 // Get Streaming Details
 export function getStreamingDetails(movieId) {
-  const baseUrl = `${BASE_URL}/movie/${movieId}/watch/providers?api_key=${API_KEY}`;
+  const baseUrl = `${BASE_URL}/movie/${movieId}/watch/providers?api_key=${TMDB_API_KEY}`;
   return fetchStreamingDetails(baseUrl);
 }
 
@@ -65,7 +66,7 @@ export function getCurrentCountry() {
 
 //Get Cast Info
 export function getCastInfo(memberId) {
-  const baseUrl = `${BASE_URL}/person/${memberId}?api_key=${API_KEY}&language=${LANG}`;
+  const baseUrl = `${BASE_URL}/person/${memberId}?api_key=${TMDB_API_KEY}&language=${LANG}`;
   return fetchData(baseUrl);
 }
 
@@ -73,7 +74,7 @@ export function getCastInfo(memberId) {
 export function getCastAndCrewDetails(movieId) {
   const baseUrl = `${BASE_URL}/movie/${encodeURIComponent(
     movieId
-  )}/credits?api_key=${API_KEY}`;
+  )}/credits?api_key=${TMDB_API_KEY}`;
   return fetchData(baseUrl);
 }
 
@@ -86,7 +87,7 @@ export async function getGenres() {
   } else {
     console.log("Entering else block");
     const fetchedGenres = await fetchData(
-      `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=${LANG}`
+      `${BASE_URL}/genre/movie/list?api_key=${TMDB_API_KEY}&language=${LANG}`
     );
 
     localStorage.setItem("genres", JSON.stringify(fetchedGenres.genres));
@@ -96,7 +97,12 @@ export async function getGenres() {
 }
 
 export function getArtistFilmography(castId) {
-  const baseUrl = `${BASE_URL}/person/${castId}/movie_credits?api_key=${API_KEY}`;
+  const baseUrl = `${BASE_URL}/person/${castId}/movie_credits?api_key=${TMDB_API_KEY}`;
+  return fetchData(baseUrl);
+}
+
+export function getRatingArray(movieTitle) {
+  const baseUrl = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=${movieTitle}`;
   return fetchData(baseUrl);
 }
 
@@ -160,3 +166,45 @@ export function getCommentAndTimeSinceUpdate(movie) {
   }
   return { comment, timeSinceUpdate };
 }
+
+export const rating_result = {
+  Title: "Inception",
+  Year: "2010",
+  Rated: "PG-13",
+  Released: "16 Jul 2010",
+  Runtime: "148 min",
+  Genre: "Action, Adventure, Sci-Fi",
+  Director: "Christopher Nolan",
+  Writer: "Christopher Nolan",
+  Actors: "Leonardo DiCaprio, Joseph Gordon-Levitt, Elliot Page",
+  Plot: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster.",
+  Language: "English, Japanese, French",
+  Country: "United States, United Kingdom",
+  Awards: "Won 4 Oscars. 159 wins & 220 nominations total",
+  Poster:
+    "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+  Ratings: [
+    {
+      Source: "Internet Movie Database",
+      Value: "8.8/10",
+    },
+    {
+      Source: "Rotten Tomatoes",
+      Value: "87%",
+    },
+    {
+      Source: "Metacritic",
+      Value: "74/100",
+    },
+  ],
+  Metascore: "74",
+  imdbRating: "8.8",
+  imdbVotes: "2,626,859",
+  imdbID: "tt1375666",
+  Type: "movie",
+  DVD: "N/A",
+  BoxOffice: "$292,587,330",
+  Production: "N/A",
+  Website: "N/A",
+  Response: "True",
+};

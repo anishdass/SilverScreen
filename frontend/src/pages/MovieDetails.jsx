@@ -1,5 +1,6 @@
 import "../css/MovieDetails.css";
 import "../css/Fonts.css";
+import "../css/Logo.css";
 
 import CastAndCrewSection from "../components/CastAndCrewSection";
 import PromoSection from "../components/PromoSection";
@@ -13,6 +14,7 @@ import {
   getStreamingDetails,
   getGenres,
   getCurrentCountry,
+  getRatingArray,
 } from "../utils/helpers";
 
 import {
@@ -24,6 +26,11 @@ import {
   BACKDROP_PATH_KEY,
 } from "../utils/constants";
 
+import InternetMovieDatabaseLogo from "../images/Internet_Movie_Database_logo.png";
+import MetacriticLogo from "../images/Metacritic_logo.png";
+import RottenTomatoesLogo from "../images/Rotten_Tomatoes_logo.png";
+import TMDBLogo from "../images/TMDb_logo.png";
+
 import FavoriteButton from "../elements/FavoriteButton";
 import WatchedButton from "../elements/WatchedButton";
 import WatchlistButton from "../elements/WatchlistButton";
@@ -32,7 +39,6 @@ import CommentArea from "../elements/CommentArea";
 import GenreButton from "../elements/GenreButton";
 import Divider from "../elements/Divider";
 import YourRating from "../elements/YourRating";
-import Star from "../icons/Star";
 
 function MovieDetails() {
   const { state: { movie } = {} } = useLocation();
@@ -40,6 +46,7 @@ function MovieDetails() {
   const [crewMembers, setCrew] = useState([]);
   const [genres, setGenres] = useState([]);
   const [currentCountry, setCurrentCountry] = useState([]);
+  const [ratingsData, setRatingsData] = useState([]);
   const {
     setLoading,
     setGenreClicked,
@@ -55,20 +62,28 @@ function MovieDetails() {
     const loadData = async () => {
       setLoading(true);
       try {
-        const [videos, castCrew, streaming, allGenres, curCountry] =
-          await Promise.all([
-            getVideoDetails(movie.id),
-            getCastAndCrewDetails(movie.id),
-            getStreamingDetails(movie.id),
-            getGenres(),
-            //getCurrentCountry(),
-          ]);
+        const [
+          videos,
+          castCrew,
+          streaming,
+          allGenres,
+          curCountry,
+          currentRatings,
+        ] = await Promise.all([
+          getVideoDetails(movie.id),
+          getCastAndCrewDetails(movie.id),
+          getStreamingDetails(movie.id),
+          getGenres(),
+          getCurrentCountry(),
+          getRatingArray(movie.title),
+        ]);
         setVideos(videos);
         setCasts(castCrew.cast || []);
         setCrew(castCrew.crew || []);
         setStreamingData(streaming || {});
         setGenres(allGenres.genres || {});
         setCurrentCountry(curCountry ? curCountry : "UK");
+        setRatingsData(currentRatings);
       } catch (error) {
         setError("Failed to load data");
       } finally {
@@ -79,7 +94,50 @@ function MovieDetails() {
   }, [movie.id, setLoading, setError, setVideos, setStreamingData]);
 
   console.log(movie);
+  console.log(movie.vote_count);
 
+  const ratingsArray = [
+    {
+      Source: "IMDb",
+      Value: ratingsData.imdbRating,
+      VoteCount: ratingsData.imdbVotes,
+    },
+    {
+      Source: "Rotten Tomatoes",
+      Value: ratingsData.Ratings?.[1]?.Value,
+    },
+    { Source: "Metacritic", Value: ratingsData.Metascore },
+    {
+      Source: "TMDB",
+      Value: movie.vote_average?.toFixed(1),
+      VoteCount: movie.vote_count,
+    },
+  ];
+
+  const ratings = ratingsArray.map((rating) => {
+    let logo;
+
+    switch (rating.Source) {
+      case "IMDb":
+        logo = InternetMovieDatabaseLogo;
+        break;
+      case "Rotten Tomatoes":
+        logo = RottenTomatoesLogo;
+        break;
+      case "Metacritic":
+        logo = MetacriticLogo;
+        break;
+      case "TMDB":
+        logo = TMDBLogo;
+        break;
+      default:
+        logo = null;
+    }
+
+    return { ...rating, img: logo };
+  });
+
+  console.log(ratings);
   const movieGenres = useMemo(
     () =>
       genres
@@ -154,26 +212,33 @@ function MovieDetails() {
           {/* Movie overview */}
           <div className='movie-overview description'>{movie.overview}</div>
 
-          <div className='genre-and-rating-section d-flex align-items-center'>
+          <div className='genre-section'>
             <GenreButton
               handleGenreSearch={handleGenreSearch}
               movieGenres={movieGenres}
             />
-            {movie.vote_count > 500 && (
-              <div className='rating-section'>
-                <div className='star'>
-                  <Star
-                    rating={(Math.round(movie.vote_average * 10) / 10).toFixed(
-                      1
+          </div>
+
+          <div className='rating-section'>
+            {ratings.map(
+              (rating, index) =>
+                rating.Value !== "N/A" &&
+                rating.Value !== undefined && (
+                  <div className='rating-item' key={index}>
+                    <img src={rating.img} alt={`${rating.Source} logo`} />
+                    <span className='rating-value'>
+                      {rating.Value || "Unavailable"}
+                    </span>
+                    {rating.VoteCount && (
+                      <span className='rating-vote-count'>
+                        ({rating.VoteCount || "Unavailable"})
+                      </span>
                     )}
-                  />
-                </div>
-                <span className='rating-value'>
-                  {(Math.round(movie.vote_average * 10) / 10).toFixed(1)}
-                </span>
-              </div>
+                  </div>
+                )
             )}
           </div>
+
           <YourRating />
 
           {/* Streaming information */}
