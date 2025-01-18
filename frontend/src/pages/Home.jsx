@@ -1,7 +1,7 @@
 import "../css/Home.css";
 import MoviePage from "../components/MoviePage";
 import { useEffect } from "react";
-import { searchPopularMovies } from "../utils/helpers";
+import { searchPopularMovies } from "../utils/APIHelper";
 import { useMovieContext } from "../contexts/MovieContext";
 
 function Home() {

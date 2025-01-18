@@ -1,0 +1,114 @@
+/* Login form container */
+.login-form form {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Form title */
+form h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* General form elements styling */
+.form-group.form-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Label styling */
+label {
+  display: block;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+/* Input fields styling */
+input.login-form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: border 0.3s ease;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+input.login-form-control:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Button styling */
+button.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 60px;
+  font-size: 1.2rem;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.submit-btn:active {
+  transform: scale(0.95);
+}
+
+/* Remember me text */
+.form-check-label {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Small text beneath input */
+small {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* Error/Success messages */
+.error-message,
+.success-message {
+  color: red;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: green;
+}
+
+.label {
+  display: flex; /* Make it a flex container */
+  justify-content: center; /* Center content horizontally */
+}
+
+/* Responsiveness */
+@media (max-width: 500px) {
+  form {
+    padding: 15px;
+  }
+
+  button.submit-btn {
+    font-size: 1rem;
+  }
+}

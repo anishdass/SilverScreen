@@ -1,14 +1,11 @@
+import PillButton from "./PillButton";
+
 function GenreButton({ handleGenreSearch, movieGenres }) {
   return (
     <div>
       {movieGenres &&
         movieGenres.map((genre) => (
-          <button
-            key={genre}
-            className='btn btn-dark rounded-pill genre-button'
-            onClick={() => handleGenreSearch(genre)}>
-            {genre}
-          </button>
+          <PillButton data={genre} handleGenreSearch={handleGenreSearch} />
         ))}
     </div>
   );

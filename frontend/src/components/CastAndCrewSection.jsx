@@ -1,5 +1,5 @@
 import Card from "../elements/Card";
-import { getCastInfo } from "../utils/helpers";
+import { getCastInfo } from "../utils/APIHelper";
 import { useNavigate } from "react-router-dom";
 import "../css/CastAndCrewSection.css";
 

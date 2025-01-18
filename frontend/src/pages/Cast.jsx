@@ -1,16 +1,21 @@
+import "../css/Cast.css";
+import "../css/Fonts.css";
+
+import Card from "../elements/Card";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tab, Nav } from "react-bootstrap";
-import "../css/Cast.css";
-import "../css/Fonts.css";
 import { useMovieContext } from "../contexts/MovieContext";
+
 import {
   IMAGE_BASE_URL,
   IMAGE_PATH_KEY,
   DEFAULT_PROFILE_IMAGE,
 } from "../utils/constants";
-import { getArtistFilmography, getJobList } from "../utils/helpers";
-import Card from "../elements/Card";
+
+import { getArtistFilmography } from "../utils/APIHelper";
+import { getJobList } from "../utils/helper";
 
 function Cast() {
   const { setLoading, setError } = useMovieContext();

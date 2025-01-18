@@ -1,22 +1,26 @@
+//Impporting CSS
 import "../css/MovieDetails.css";
 import "../css/Fonts.css";
 import "../css/Logo.css";
 
-import CastAndCrewSection from "../components/CastAndCrewSection";
-import PromoSection from "../components/PromoSection";
+//Imports
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
 import { Tab, Nav } from "react-bootstrap";
+
+//Importing helpers
 import {
   getVideoDetails,
   getCastAndCrewDetails,
   getStreamingDetails,
-  getGenres,
   getCurrentCountry,
   getRatingArray,
-} from "../utils/helpers";
+} from "../utils/APIhelper";
 
+import { getGenres } from "../utils/DBHelper";
+
+//Importing constants
 import {
   DEFAULT_PROFILE_IMAGE,
   IMAGE_BASE_URL,
@@ -26,11 +30,18 @@ import {
   BACKDROP_PATH_KEY,
 } from "../utils/constants";
 
+//Importing Logos
 import InternetMovieDatabaseLogo from "../images/Internet_Movie_Database_logo.png";
 import MetacriticLogo from "../images/Metacritic_logo.png";
 import RottenTomatoesLogo from "../images/Rotten_Tomatoes_logo.png";
 import TMDBLogo from "../images/TMDb_logo.png";
 
+//Importing components
+import CastAndCrewSection from "../components/CastAndCrewSection";
+import PromoSection from "../components/PromoSection";
+import MoreInformationSection from "../components/MoreInformationSection";
+
+//Importing Elements
 import FavoriteButton from "../elements/FavoriteButton";
 import WatchedButton from "../elements/WatchedButton";
 import WatchlistButton from "../elements/WatchlistButton";
@@ -39,6 +50,7 @@ import CommentArea from "../elements/CommentArea";
 import GenreButton from "../elements/GenreButton";
 import Divider from "../elements/Divider";
 import YourRating from "../elements/YourRating";
+import PillButton from "../elements/PillButton";
 
 function MovieDetails() {
   const { state: { movie } = {} } = useLocation();
@@ -67,14 +79,14 @@ function MovieDetails() {
           castCrew,
           streaming,
           allGenres,
-          curCountry,
+          //Country,
           currentRatings,
         ] = await Promise.all([
           getVideoDetails(movie.id),
           getCastAndCrewDetails(movie.id),
           getStreamingDetails(movie.id),
           getGenres(),
-          getCurrentCountry(),
+          //getCurrentCountry(),
           getRatingArray(movie.title),
         ]);
         setVideos(videos);
@@ -82,7 +94,8 @@ function MovieDetails() {
         setCrew(castCrew.crew || []);
         setStreamingData(streaming || {});
         setGenres(allGenres.genres || {});
-        setCurrentCountry(curCountry ? curCountry : "UK");
+        //setCurrentCountry(Country ? Country : "UK");
+        setCurrentCountry("UK");
         setRatingsData(currentRatings);
       } catch (error) {
         setError("Failed to load data");
@@ -93,51 +106,42 @@ function MovieDetails() {
     loadData();
   }, [movie.id, setLoading, setError, setVideos, setStreamingData]);
 
-  console.log(movie);
-  console.log(movie.vote_count);
-
-  const ratingsArray = [
+  const ratings = [
     {
       Source: "IMDb",
       Value: ratingsData.imdbRating,
       VoteCount: ratingsData.imdbVotes,
+      Link: `https://www.imdb.com/title/${ratingsData.imdbID}/`,
+      img: InternetMovieDatabaseLogo,
     },
     {
       Source: "Rotten Tomatoes",
       Value: ratingsData.Ratings?.[1]?.Value,
+      Link: `https://www.rottentomatoes.com/m/${movie.title
+        .toLowerCase()
+        .replace(/ /g, "_")}`,
+      img: RottenTomatoesLogo,
     },
-    { Source: "Metacritic", Value: ratingsData.Metascore },
+    {
+      Source: "Metacritic",
+      Value: ratingsData.Metascore,
+      Link: `https://www.metacritic.com/movie/${movie.title
+        .toLowerCase()
+        .replace(/ /g, "-")}`,
+      img: MetacriticLogo,
+    },
     {
       Source: "TMDB",
       Value: movie.vote_average?.toFixed(1),
       VoteCount: movie.vote_count,
+      Link: `https://www.themoviedb.org/movie/${movie.id}`,
+      img: TMDBLogo,
     },
   ];
 
-  const ratings = ratingsArray.map((rating) => {
-    let logo;
+  //BO, Country, Language, Rated, Release Date, Year
+  console.log(movie, ratingsData);
 
-    switch (rating.Source) {
-      case "IMDb":
-        logo = InternetMovieDatabaseLogo;
-        break;
-      case "Rotten Tomatoes":
-        logo = RottenTomatoesLogo;
-        break;
-      case "Metacritic":
-        logo = MetacriticLogo;
-        break;
-      case "TMDB":
-        logo = TMDBLogo;
-        break;
-      default:
-        logo = null;
-    }
-
-    return { ...rating, img: logo };
-  });
-
-  console.log(ratings);
   const movieGenres = useMemo(
     () =>
       genres
@@ -200,13 +204,17 @@ function MovieDetails() {
           <div className='movie-title-section'>
             <h2 className='display-5 heading text-start'>
               {movie.title}{" "}
-              {movie.release_date
-                ? `(${movie.release_date.substring(0, 4)})`
-                : null}
+              {movie.release_date ? `(${ratingsData.Year})` : null}
             </h2>
             <FavoriteButton movie={movie} />
             <WatchedButton movie={movie} />
             <WatchlistButton movie={movie} />
+          </div>
+
+          <div className='aditional-information'>
+            <PillButton data={ratingsData.Language} />
+            <PillButton data={ratingsData.Runtime} />
+            <PillButton data={ratingsData.Rated} />
           </div>
 
           {/* Movie overview */}
@@ -225,7 +233,12 @@ function MovieDetails() {
                 rating.Value !== "N/A" &&
                 rating.Value !== undefined && (
                   <div className='rating-item' key={index}>
-                    <img src={rating.img} alt={`${rating.Source} logo`} />
+                    <a
+                      href={rating.Link}
+                      target='_blank'
+                      rel='noopener noreferrer'>
+                      <img src={rating.img} alt={`${rating.Source} logo`} />
+                    </a>
                     <span className='rating-value'>
                       {rating.Value || "Unavailable"}
                     </span>
@@ -246,6 +259,7 @@ function MovieDetails() {
             {renderStreamingPlatforms()}
           </div>
 
+      </div>
           {/* Tabs for Cast, Crew, and Promos */}
           <Tab.Container defaultActiveKey='cast'>
             <div className='movie-details-tabs'>
@@ -263,6 +277,9 @@ function MovieDetails() {
                 <Nav.Item>
                   <Nav.Link eventKey='promo'>Teaser/Trailer</Nav.Link>
                 </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey='more'>Other</Nav.Link>
+                </Nav.Item>
               </Nav>
 
               <Tab.Content>
@@ -279,6 +296,9 @@ function MovieDetails() {
                 <Tab.Pane eventKey='promo'>
                   <PromoSection />
                 </Tab.Pane>
+                <Tab.Pane eventKey='more'>
+                  <MoreInformationSection data={ratingsData} />
+                </Tab.Pane>
               </Tab.Content>
             </div>
           </Tab.Container>
@@ -291,7 +311,6 @@ function MovieDetails() {
           placeholderText={"Your Comments Here"}
           movie={movie}
         />
-      </div>
     </div>
   );
 }

@@ -70,6 +70,15 @@ function Navbar() {
                 Watchlist
               </Link>
             </li>
+            <li className='nav-item'>
+              <Link
+                to='/login'
+                className={`nav-link ${
+                  location.pathname === "/login" ? "active" : ""
+                }`}>
+                Login
+              </Link>
+            </li>
           </ul>
           <SearchComponent />
         </div>

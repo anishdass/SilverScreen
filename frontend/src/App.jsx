@@ -10,6 +10,7 @@ import Navbar from "./elements/Navbar";
 import SearchByGenre from "./pages/SearchByGenre";
 import SearchByQuery from "./pages/SearchByQuery";
 import Cast from "./pages/Cast";
+import Login from "./pages/Login";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -24,6 +25,7 @@ function App() {
           <Route path='/watched' element={<Watched />} />
           <Route path='/watchlist' element={<Watchlist />} />
           <Route path='/movies/:id' element={<MovieDetails />} />
+          <Route path='/login' element={<Login />} />
           <Route
             path='/movies/search/genre/:genre'
             element={<SearchByGenre />}

@@ -2,7 +2,7 @@ import "../css/Home.css";
 import MoviePage from "../components/MoviePage";
 import { useEffect } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
-import { searchMoviesByGenre } from "../utils/helpers";
+import { searchMoviesByGenre } from "../utils/APIHelper";
 
 function Search() {
   const {

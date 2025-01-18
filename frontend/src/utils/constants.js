@@ -1,5 +1,3 @@
-import { getCurrentCountry } from "./helpers";
-
 //Constants
 
 export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
@@ -22,3 +20,5 @@ export const STREAMING_KEY = "flatrate";
 export const URL_TO_GET_CURRENT_COUNTRY = "https://ipapi.co/json/";
 
 export const NAME_OF_THE_APP = "SilverScreen";
+
+export const STORAGE = localStorage;

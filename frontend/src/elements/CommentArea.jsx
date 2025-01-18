@@ -3,7 +3,7 @@ import LikeButton from "../elements/LikeButton";
 import DislikeButton from "../elements/DislikeButton";
 import { DEFAULT_PROFILE_IMAGE } from "../utils/constants";
 import Divider from "./Divider";
-import { getCommentAndTimeSinceUpdate } from "../utils/helpers";
+import { getCommentAndTimeSinceUpdate } from "../utils/helper";
 
 function CommentArea({ username, movie }) {
   const { comment, timeSinceUpdate } = getCommentAndTimeSinceUpdate(movie);
