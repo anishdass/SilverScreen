@@ -95,7 +95,7 @@ function MovieDetails() {
         setStreamingData(streaming || {});
         setGenres(allGenres.genres || {});
         //setCurrentCountry(Country ? Country : "UK");
-        setCurrentCountry("UK");
+        setCurrentCountry("GB");
         setRatingsData(currentRatings);
       } catch (error) {
         setError("Failed to load data", error);
