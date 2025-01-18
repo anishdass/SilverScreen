@@ -34,7 +34,7 @@ import {
 import InternetMovieDatabaseLogo from "../images/Internet_Movie_Database_logo.png";
 import MetacriticLogo from "../images/Metacritic_logo.png";
 import RottenTomatoesLogo from "../images/Rotten_Tomatoes_logo.png";
-import TMDBLogo from "../images/TMDb_logo.png";
+import TMDBLogo from "../images/TMDB_logo.png";
 
 //Importing components
 import CastAndCrewSection from "../components/CastAndCrewSection";
