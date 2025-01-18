@@ -16,7 +16,7 @@ import {
   getStreamingDetails,
   getCurrentCountry,
   getRatingArray,
-} from "../utils/APIhelper";
+} from "../utils/APIHelper";
 
 import { getGenres } from "../utils/DBHelper";
 
@@ -258,59 +258,58 @@ function MovieDetails() {
           <div className='streaming-platforms'>
             {renderStreamingPlatforms()}
           </div>
-
-      </div>
-          {/* Tabs for Cast, Crew, and Promos */}
-          <Tab.Container defaultActiveKey='cast'>
-            <div className='movie-details-tabs'>
-              <Nav variant='tabs' className='justify-content-center mb-4'>
-                {casts.length > 0 && (
-                  <Nav.Item>
-                    <Nav.Link eventKey='cast'>Cast</Nav.Link>
-                  </Nav.Item>
-                )}
-                {crewMembers.length > 0 && (
-                  <Nav.Item>
-                    <Nav.Link eventKey='crew'>Crew</Nav.Link>
-                  </Nav.Item>
-                )}
-                <Nav.Item>
-                  <Nav.Link eventKey='promo'>Teaser/Trailer</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey='more'>Other</Nav.Link>
-                </Nav.Item>
-              </Nav>
-
-              <Tab.Content>
-                {casts.length > 0 && (
-                  <Tab.Pane eventKey='cast'>
-                    <CastAndCrewSection data={casts} />
-                  </Tab.Pane>
-                )}
-                {crewMembers.length > 0 && (
-                  <Tab.Pane eventKey='crew'>
-                    <CastAndCrewSection data={crewMembers} />
-                  </Tab.Pane>
-                )}
-                <Tab.Pane eventKey='promo'>
-                  <PromoSection />
-                </Tab.Pane>
-                <Tab.Pane eventKey='more'>
-                  <MoreInformationSection data={ratingsData} />
-                </Tab.Pane>
-              </Tab.Content>
-            </div>
-          </Tab.Container>
         </div>
-        <Divider />
-        <CommentArea movie={movie} />
-        <CommentBox
-          rows={5}
-          label={"Comments"}
-          placeholderText={"Your Comments Here"}
-          movie={movie}
-        />
+        {/* Tabs for Cast, Crew, and Promos */}
+        <Tab.Container defaultActiveKey='cast'>
+          <div className='movie-details-tabs'>
+            <Nav variant='tabs' className='justify-content-center mb-4'>
+              {casts.length > 0 && (
+                <Nav.Item>
+                  <Nav.Link eventKey='cast'>Cast</Nav.Link>
+                </Nav.Item>
+              )}
+              {crewMembers.length > 0 && (
+                <Nav.Item>
+                  <Nav.Link eventKey='crew'>Crew</Nav.Link>
+                </Nav.Item>
+              )}
+              <Nav.Item>
+                <Nav.Link eventKey='promo'>Teaser/Trailer</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey='more'>Other</Nav.Link>
+              </Nav.Item>
+            </Nav>
+
+            <Tab.Content>
+              {casts.length > 0 && (
+                <Tab.Pane eventKey='cast'>
+                  <CastAndCrewSection data={casts} />
+                </Tab.Pane>
+              )}
+              {crewMembers.length > 0 && (
+                <Tab.Pane eventKey='crew'>
+                  <CastAndCrewSection data={crewMembers} />
+                </Tab.Pane>
+              )}
+              <Tab.Pane eventKey='promo'>
+                <PromoSection />
+              </Tab.Pane>
+              <Tab.Pane eventKey='more'>
+                <MoreInformationSection data={ratingsData} />
+              </Tab.Pane>
+            </Tab.Content>
+          </div>
+        </Tab.Container>
+      </div>
+      <Divider />
+      <CommentArea movie={movie} />
+      <CommentBox
+        rows={5}
+        label={"Comments"}
+        placeholderText={"Your Comments Here"}
+        movie={movie}
+      />
     </div>
   );
 }
