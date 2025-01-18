@@ -98,7 +98,7 @@ function MovieDetails() {
         setCurrentCountry("UK");
         setRatingsData(currentRatings);
       } catch (error) {
-        setError("Failed to load data");
+        setError("Failed to load data", error);
       } finally {
         setLoading(false);
       }
