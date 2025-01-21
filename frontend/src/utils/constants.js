@@ -12,7 +12,8 @@ export const DEFAULT_POSTER_IMAGE =
 
 export const TMDB_API_KEY = "3570b521118764bbb1a871af55e9fb5c";
 export const OMDB_API_KEY = "4a93452";
-export const BASE_URL = "https://api.themoviedb.org/3";
+export const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+export const OMDB_BASE_URL = "https://www.omdbapi.com";
 
 export const LANG = "en-US";
 export const STREAMING_KEY = "flatrate";

@@ -1,7 +1,49 @@
 import { getCommentData } from "./DBHelper";
+//Importing Logos
+import InternetMovieDatabaseLogo from "../images/Internet_Movie_Database_logo.png";
+import MetacriticLogo from "../images/Metacritic_logo.png";
+import RottenTomatoesLogo from "../images/Rotten_Tomatoes_logo.png";
+import TMDBLogo from "../images/TMDB_logo.png";
 
 export function getJobList(artistAsCrew) {
   return [...new Set(artistAsCrew.map((data) => data.job))];
+}
+
+export function getRatingsArray({ ratingsData, movie }) {
+  console.log(ratingsData);
+  const ratings = [
+    {
+      Source: "IMDb",
+      Value: ratingsData.imdbRating,
+      VoteCount: ratingsData.imdbVotes,
+      Link: `https://www.imdb.com/title/${ratingsData.imdbID}/`,
+      img: InternetMovieDatabaseLogo,
+    },
+    {
+      Source: "Rotten Tomatoes",
+      Value: ratingsData.Ratings?.[1]?.Value,
+      Link: `https://www.rottentomatoes.com/m/${movie.title
+        .toLowerCase()
+        .replace(/ /g, "_")}`,
+      img: RottenTomatoesLogo,
+    },
+    {
+      Source: "Metacritic",
+      Value: ratingsData.Metascore,
+      Link: `https://www.metacritic.com/movie/${movie.title
+        .toLowerCase()
+        .replace(/ /g, "-")}`,
+      img: MetacriticLogo,
+    },
+    {
+      Source: "TMDB",
+      Value: movie.vote_average?.toFixed(1),
+      VoteCount: movie.vote_count,
+      Link: `https://www.themoviedb.org/movie/${movie.id}`,
+      img: TMDBLogo,
+    },
+  ];
+  return ratings;
 }
 
 export function getCommentAndTimeSinceUpdate(movie) {

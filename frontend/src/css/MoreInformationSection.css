@@ -1,40 +1,74 @@
+/* Styling for the overall section */
 .more-information-section {
-  margin: 20px 0;
+  margin: 20px auto;
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #f8f9fa; /* Light background for contrast */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  max-width: 800px; /* Limit the width for readability */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.more-information-section:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Deepen shadow on hover */
+}
+
+/* Container for the content */
+.container {
+  padding: 5px;
+}
+
+/* Table styling */
 .info-table {
   width: 100%;
-  border-collapse: collapse;
-  font-family: Arial, sans-serif;
+  border-collapse: separate;
+  border-spacing: 0 5px; /* Space between rows */
+  font-family: "Roboto", Arial, sans-serif; /* Modern, clean font */
+  font-size: 16px;
+  color: #333;
 }
 
+/* Row styling */
 .info-table tbody tr {
-  border-bottom: 1px solid #ddd;
+  background-color: #ffffff; /* White background for rows */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for rows */
+  overflow: hidden; /* Maintain rounded corners for rows */
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.info-table tbody tr:last-child {
-  border-bottom: none; /* Remove border for the last row */
+.info-table tbody tr:hover {
+  background-color: #f1f8ff; /* Light blue hover effect */
+  transform: scale(1.02); /* Slight zoom-in effect */
 }
 
+/* Cell styling */
 .info-table td {
-  padding: 10px;
-  text-align: left;
+  padding: 12px 15px;
+  vertical-align: middle; /* Align content vertically */
+  text-align: left; /* Align text to the left */
 }
 
 .info-table td:first-child {
-  font-weight: bold;
-  color: #333;
-  width: 30%;
+  font-weight: 600; /* Bold for labels */
+  color: #222; /* Darker text for labels */
+  width: 35%; /* Adjust width for labels */
 }
 
 .info-table td:last-child {
-  color: #555;
+  color: #555; /* Softer gray for values */
 }
 
-.info-table tr:hover {
-  background-color: #f1f1f1; /* Add a hover effect for table rows */
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .info-table {
+    font-size: 14px; /* Smaller font size for compactness */
+  }
+
+  .info-table td {
+    padding: 10px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -42,18 +76,25 @@
     display: block;
     width: 100%;
     text-align: left;
-    padding: 8px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Divider between blocks */
   }
 
   .info-table tr {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Spacing between rows */
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 8px;
   }
 
   .info-table td:first-child {
     font-weight: bold;
-    color: #333;
+    margin-bottom: 5px; /* Space between label and value */
   }
+}
+.no-info-text {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
 }

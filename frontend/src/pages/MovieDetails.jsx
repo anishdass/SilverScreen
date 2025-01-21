@@ -4,28 +4,26 @@ import "../css/Fonts.css";
 import "../css/Logo.css";
 
 //Imports
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
-import { Tab, Nav } from "react-bootstrap";
 
 //Importing helpers
 import {
   getVideoDetails,
   getCastAndCrewDetails,
   getStreamingDetails,
-  getCurrentCountry,
+  //getCurrentCountry,
   getRatingArray,
+  getSimilarMovies,
+  getCollectionDetails,
 } from "../utils/APIHelper";
 
 import { getGenres } from "../utils/DBHelper";
 
 //Importing constants
 import {
-  DEFAULT_PROFILE_IMAGE,
   IMAGE_BASE_URL,
-  LOGO_PATH_KEY,
-  STREAMING_KEY,
   POSTER_PATH_KEY,
   BACKDROP_PATH_KEY,
 } from "../utils/constants";
@@ -37,9 +35,6 @@ import RottenTomatoesLogo from "../images/Rotten_Tomatoes_logo.png";
 import TMDBLogo from "../images/TMDB_logo.png";
 
 //Importing components
-import CastAndCrewSection from "../components/CastAndCrewSection";
-import PromoSection from "../components/PromoSection";
-import MoreInformationSection from "../components/MoreInformationSection";
 
 //Importing Elements
 import FavoriteButton from "../elements/FavoriteButton";
@@ -50,53 +45,58 @@ import CommentArea from "../elements/CommentArea";
 import GenreButton from "../elements/GenreButton";
 import Divider from "../elements/Divider";
 import YourRating from "../elements/YourRating";
-import PillButton from "../elements/PillButton";
+
+import CastNavbar from "../elements/CastNavbar";
+import StreamingPlatformSection from "../elements/StreamingPlatformSection";
+import RatingSection from "../elements/RatingSection";
+import AdditionalInformationSection from "../elements/AdditionalInformationSection";
 
 function MovieDetails() {
   const { state: { movie } = {} } = useLocation();
   const [casts, setCasts] = useState([]);
   const [crewMembers, setCrew] = useState([]);
-  const [genres, setGenres] = useState([]);
   const [currentCountry, setCurrentCountry] = useState([]);
   const [ratingsData, setRatingsData] = useState([]);
-  const {
-    setLoading,
-    setGenreClicked,
-    setGenreId,
-    setError,
-    setVideos,
-    streamingData,
-    setStreamingData,
-  } = useMovieContext();
-  const navigate = useNavigate();
+  const [similarMovies, setSimilarMovies] = useState([]);
+  const [moviesInCollection, setMoviesInCollection] = useState([]);
+  const { setLoading, setError, setVideos, streamingData, setStreamingData } =
+    useMovieContext();
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const [
-          videos,
-          castCrew,
-          streaming,
-          allGenres,
-          //Country,
-          currentRatings,
-        ] = await Promise.all([
-          getVideoDetails(movie.id),
-          getCastAndCrewDetails(movie.id),
-          getStreamingDetails(movie.id),
-          getGenres(),
-          //getCurrentCountry(),
-          getRatingArray(movie.title),
-        ]);
+        const videos = await getVideoDetails(movie.id);
         setVideos(videos);
+
+        const castCrew = await getCastAndCrewDetails(movie.id);
         setCasts(castCrew.cast || []);
         setCrew(castCrew.crew || []);
+
+        const streaming = await getStreamingDetails(movie.id);
         setStreamingData(streaming || {});
-        setGenres(allGenres.genres || {});
+
+        // const Country = await getCurrentCountry();
         //setCurrentCountry(Country ? Country : "UK");
         setCurrentCountry("GB");
+
+        const currentRatings = await getRatingArray(
+          movie.title,
+          "movie",
+          movie.release_date.split("-")[0]
+        );
         setRatingsData(currentRatings);
+
+        const similarMovies = await getSimilarMovies(movie.id);
+        setSimilarMovies(similarMovies);
+
+        if (movie.belongs_to_collection) {
+          const moviesInCollection = await getCollectionDetails(
+            movie.belongs_to_collection.id
+          );
+          console.log(movie.belongs_to_collection.id);
+          setMoviesInCollection(moviesInCollection.parts);
+        }
       } catch (error) {
         setError("Failed to load data", error);
       } finally {
@@ -105,6 +105,8 @@ function MovieDetails() {
     };
     loadData();
   }, [movie.id, setLoading, setError, setVideos, setStreamingData]);
+
+  console.log(ratingsData);
 
   const ratings = [
     {
@@ -139,44 +141,6 @@ function MovieDetails() {
     },
   ];
 
-  //BO, Country, Language, Rated, Release Date, Year
-  console.log(movie, ratingsData);
-
-  const movieGenres = useMemo(
-    () =>
-      genres
-        .filter((genre) => movie.genre_ids.includes(genre.id))
-        .map((genre) => genre.name),
-    [movie.genre_ids, genres]
-  );
-
-  const handleGenreSearch = (genre) => {
-    const selectedGenre = genres.find((g) => g.name === genre);
-    if (selectedGenre) {
-      setGenreClicked(genre);
-      setGenreId(selectedGenre.id);
-      navigate(`/movies/search/genre/${genre}`);
-    }
-  };
-
-  const renderStreamingPlatforms = () =>
-    streamingData[currentCountry]?.[STREAMING_KEY]?.length > 0 ? (
-      streamingData[currentCountry][STREAMING_KEY].map((platform) => (
-        <img
-          key={platform.display_priority}
-          className='streaming-platform img'
-          src={
-            platform[LOGO_PATH_KEY]
-              ? `${IMAGE_BASE_URL}w500${platform[LOGO_PATH_KEY]}`
-              : DEFAULT_PROFILE_IMAGE
-          }
-          alt={platform.name || "Streaming Platform"}
-        />
-      ))
-    ) : (
-      <p>Not Streaming in your country</p>
-    );
-
   return (
     <div className='container'>
       <div className='backdrop-img'>
@@ -203,104 +167,47 @@ function MovieDetails() {
           {/* Movie title with action buttons */}
           <div className='movie-title-section'>
             <h2 className='display-5 heading text-start'>
-              {movie.title}{" "}
-              {movie.release_date ? `(${ratingsData.Year})` : null}
+              {movie.title} {ratingsData.Year ? `(${ratingsData.Year})` : null}
             </h2>
             <FavoriteButton movie={movie} />
             <WatchedButton movie={movie} />
             <WatchlistButton movie={movie} />
           </div>
-
-          <div className='aditional-information'>
-            <PillButton data={ratingsData.Language} />
-            <PillButton data={ratingsData.Runtime} />
-            <PillButton data={ratingsData.Rated} />
+          <div className='movie-tagline-section'>
+            <b>
+              <i>{movie.tagline}</i>
+            </b>
           </div>
 
-          {/* Movie overview */}
+          <AdditionalInformationSection
+            movie={movie}
+            ratingsData={ratingsData}
+          />
+
           <div className='movie-overview description'>{movie.overview}</div>
 
           <div className='genre-section'>
-            <GenreButton
-              handleGenreSearch={handleGenreSearch}
-              movieGenres={movieGenres}
-            />
+            <GenreButton genreObj={movie.genres} type={"genre"} />
           </div>
 
-          <div className='rating-section'>
-            {ratings.map(
-              (rating, index) =>
-                rating.Value !== "N/A" &&
-                rating.Value !== undefined && (
-                  <div className='rating-item' key={index}>
-                    <a
-                      href={rating.Link}
-                      target='_blank'
-                      rel='noopener noreferrer'>
-                      <img src={rating.img} alt={`${rating.Source} logo`} />
-                    </a>
-                    <span className='rating-value'>
-                      {rating.Value || "Unavailable"}
-                    </span>
-                    {rating.VoteCount && (
-                      <span className='rating-vote-count'>
-                        ({rating.VoteCount || "Unavailable"})
-                      </span>
-                    )}
-                  </div>
-                )
-            )}
-          </div>
+          <RatingSection ratings={ratings} />
 
           <YourRating />
 
-          {/* Streaming information */}
-          <div className='streaming-platforms'>
-            {renderStreamingPlatforms()}
-          </div>
+          <StreamingPlatformSection
+            streamingData={streamingData}
+            currentCountry={currentCountry}
+          />
         </div>
-        {/* Tabs for Cast, Crew, and Promos */}
-        <Tab.Container defaultActiveKey='cast'>
-          <div className='movie-details-tabs'>
-            <Nav variant='tabs' className='justify-content-center mb-4'>
-              {casts.length > 0 && (
-                <Nav.Item>
-                  <Nav.Link eventKey='cast'>Cast</Nav.Link>
-                </Nav.Item>
-              )}
-              {crewMembers.length > 0 && (
-                <Nav.Item>
-                  <Nav.Link eventKey='crew'>Crew</Nav.Link>
-                </Nav.Item>
-              )}
-              <Nav.Item>
-                <Nav.Link eventKey='promo'>Teaser/Trailer</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link eventKey='more'>Other</Nav.Link>
-              </Nav.Item>
-            </Nav>
 
-            <Tab.Content>
-              {casts.length > 0 && (
-                <Tab.Pane eventKey='cast'>
-                  <CastAndCrewSection data={casts} />
-                </Tab.Pane>
-              )}
-              {crewMembers.length > 0 && (
-                <Tab.Pane eventKey='crew'>
-                  <CastAndCrewSection data={crewMembers} />
-                </Tab.Pane>
-              )}
-              <Tab.Pane eventKey='promo'>
-                <PromoSection />
-              </Tab.Pane>
-              <Tab.Pane eventKey='more'>
-                <MoreInformationSection data={ratingsData} />
-              </Tab.Pane>
-            </Tab.Content>
-          </div>
-        </Tab.Container>
+        <CastNavbar
+          casts={casts}
+          crewMembers={crewMembers}
+          movie={movie}
+          similarMovies={similarMovies}
+          moviesInCollection={moviesInCollection}
+          ratingsData={ratingsData}
+        />
       </div>
       <Divider />
       <CommentArea movie={movie} />

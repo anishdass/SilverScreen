@@ -1,24 +1,21 @@
+import axios from "axios";
+
+// Fetch multiple pages of movies
 export const fetchMovies = async (url, startPage, endPage) => {
   try {
     let data = [];
     for (let i = startPage; i <= endPage; i++) {
-      const response = await fetch(`${url}&page=${i}`);
-      if (!response.ok) {
-        console.warn(
-          `Failed to fetch page ${i}: ${response.status} - ${response.statusText}`
-        );
-        continue;
-      }
-      const pageData = await response.json();
-      data = [...data, ...pageData.results];
+      const response = await axios.get(`${url}&page=${i}`);
+      data = [...data, ...response.data.results];
     }
     return data;
   } catch (error) {
-    console.error("Error fetching pages:", error);
+    console.error("Error fetching pages:", error.message);
     return [];
   }
 };
 
+// Fetch paginated movies
 export const fetchPaginatedMovies = async (
   baseUrl,
   pageNumber,
@@ -28,14 +25,13 @@ export const fetchPaginatedMovies = async (
     const startPage = (pageNumber - 1) * 3 + 1;
     const endPage = startPage + 2;
 
-    const response = await fetch(`${baseUrl}&page=${pageNumber}${extraParams}`);
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch movies: ${response.status} - ${response.statusText}`
-      );
-    }
-    const firstPage = await response.json();
+    // Fetch the first page of results
+    const firstPageResponse = await axios.get(
+      `${baseUrl}&page=${pageNumber}${extraParams}`
+    );
+    const firstPage = firstPageResponse.data;
 
+    // Fetch additional pages
     const additionalData = await fetchMovies(
       baseUrl + extraParams,
       startPage + 1,
@@ -48,89 +44,54 @@ export const fetchPaginatedMovies = async (
       total_results: firstPage.total_results,
     };
   } catch (error) {
-    console.error("Error fetching movies:", error);
+    console.error("Error fetching movies:", error.message);
     return { data: [], total_pages: 0, total_results: 0 };
   }
 };
 
-// API to get data
+// Generic API to fetch data
 export const fetchData = async (url) => {
   try {
-    const response = await fetch(url, {
-      method: "GET",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-
-      return data;
-    } else {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-      throw new Error("Failed to fetch genres");
-    }
+    const response = await axios.get(url);
+    return response.data;
   } catch (error) {
-    console.error("Error fetching genres from API:", error);
+    console.error("Error fetching data from API:", error.message);
     throw error;
   }
 };
 
-// API to fetch Streaming details
-export const fetchStreamingDetails = async (url) => {
+// Fetch results from the API (expects `results` key in response)
+export const fetchDataResults = async (url) => {
   try {
-    const response = await fetch(url, {
-      method: "GET",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return data.results;
-    } else {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-      throw new Error("Failed to fetch genres");
-    }
+    const response = await axios.get(url);
+    return response.data.results;
   } catch (error) {
-    return "GB";
-    console.error("Error fetching genres from API:", error);
+    console.error("Error fetching data results from API:", error.message);
     throw error;
   }
 };
 
-// API to get video details
-export const fetchVideoDetails = async (url) => {
+export const fetchSimilarMoviesSortedByPopularity = async (url) => {
   try {
-    const response = await fetch(url, {
-      method: "GET",
-    });
+    const response = await axios.get(url);
+    const movies = response.data.results;
 
-    if (response.ok) {
-      const data = await response.json();
-      return data.results;
-    } else {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-      throw new Error("Failed to fetch genres");
-    }
+    const sortedMovies = movies.sort((a, b) => b.popularity - a.popularity);
+
+    return sortedMovies;
   } catch (error) {
-    console.error("Error fetching genres from API:", error);
-    throw error;
+    console.error("Error fetching similar movies:", error);
+    return [];
   }
 };
 
 // API to fetch Current Country
 export const fetchCurrentCountry = async (url) => {
   try {
-    const response = await fetch(url, {
-      method: "GET",
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return data.country_code;
-    } else {
-      console.error(`Error: ${response.status} - ${response.statusText}`);
-      throw new Error("Failed to fetch genres");
-    }
+    const response = await axios.get(url);
+    return response.data.country_code;
   } catch (error) {
-    console.error("Error fetching genres from API:", error);
+    console.error("Error fetching current country:", error.message);
     throw error;
   }
 };
