@@ -33,6 +33,7 @@ function Search() {
           searchQuery,
           currentPage
         );
+        console.log(searchedMovies);
 
         setTotalResults(searchedMovies.total_results || 0);
         setMovies(searchedMovies.data || []);

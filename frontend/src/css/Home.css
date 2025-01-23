@@ -86,3 +86,18 @@
   color: #333;
   margin: 0;
 }
+
+.no-movies-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 75vh;
+  text-align: center;
+  background-color: #f9f9f9;
+  color: #555;
+}
+
+.no-movies-found-content {
+  max-width: 500px;
+  padding: 20px;
+}

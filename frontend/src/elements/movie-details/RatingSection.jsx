@@ -1,7 +1,7 @@
-function RatingSection({ ratings }) {
+function RatingSection({ ratingsArray }) {
   return (
     <div className='rating-section'>
-      {ratings.map(
+      {ratingsArray.map(
         (rating, index) =>
           rating.Value !== "N/A" &&
           rating.Value !== undefined && (

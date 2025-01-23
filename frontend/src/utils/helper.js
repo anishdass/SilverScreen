@@ -9,19 +9,18 @@ export function getJobList(artistAsCrew) {
   return [...new Set(artistAsCrew.map((data) => data.job))];
 }
 
-export function getRatingsArray({ ratingsData, movie }) {
-  console.log(ratingsData);
+export function getRatingsArray({ extraInfo, movie }) {
   const ratings = [
     {
       Source: "IMDb",
-      Value: ratingsData.imdbRating,
-      VoteCount: ratingsData.imdbVotes,
-      Link: `https://www.imdb.com/title/${ratingsData.imdbID}/`,
+      Value: extraInfo.imdbRating,
+      VoteCount: extraInfo.imdbVotes,
+      Link: `https://www.imdb.com/title/${extraInfo.imdbID}/`,
       img: InternetMovieDatabaseLogo,
     },
     {
       Source: "Rotten Tomatoes",
-      Value: ratingsData.Ratings?.[1]?.Value,
+      Value: extraInfo.Ratings?.[1]?.Value,
       Link: `https://www.rottentomatoes.com/m/${movie.title
         .toLowerCase()
         .replace(/ /g, "_")}`,
@@ -29,7 +28,7 @@ export function getRatingsArray({ ratingsData, movie }) {
     },
     {
       Source: "Metacritic",
-      Value: ratingsData.Metascore,
+      Value: extraInfo.Metascore,
       Link: `https://www.metacritic.com/movie/${movie.title
         .toLowerCase()
         .replace(/ /g, "-")}`,

@@ -32,7 +32,6 @@ export const MovieProvider = ({ children }) => {
   const [favorites, setFavorites] = useLocalStorage("favorites", []);
   const [watched, setWatched] = useLocalStorage("watched", []);
   const [inWatchlist, setInWatchlist] = useLocalStorage("watchlist", []);
-  const [genres, setGenres] = useLocalStorage("genres", {});
 
   const addToFavorites = (movie) => {
     setFavorites((prev) => [...prev, movie]);
@@ -110,7 +109,6 @@ export const MovieProvider = ({ children }) => {
     setTotalResults,
     genreClicked,
     setGenreClicked,
-    genres,
     genreId,
     setGenreId,
     videos,

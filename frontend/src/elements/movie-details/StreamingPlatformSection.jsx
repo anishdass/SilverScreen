@@ -3,7 +3,7 @@ import {
   IMAGE_BASE_URL,
   LOGO_PATH_KEY,
   STREAMING_KEY,
-} from "../utils/constants";
+} from "../../utils/constants";
 
 function StreamingPlatformSection({ streamingData, currentCountry }) {
   const renderStreamingPlatforms = () =>

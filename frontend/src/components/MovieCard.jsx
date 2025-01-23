@@ -2,10 +2,10 @@ import "../css/MovieCard.css";
 import "../css/Card.css";
 import { useNavigate } from "react-router-dom";
 import { getKeywords, getMovieDetails } from "../utils/APIHelper";
-import FavoriteButton from "../elements/FavoriteButton";
-import WatchedButton from "../elements/WatchedButton";
-import WatchlistButton from "../elements/WatchlistButton";
-import Card from "../elements/Card";
+import FavoriteButton from "../elements/common/FavoriteButton";
+import WatchedButton from "../elements/common/WatchedButton";
+import WatchlistButton from "../elements/common/WatchlistButton";
+import Card from "../elements/common/Card";
 
 function MovieCard({ movie }) {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import "../css/Cast.css";
 import "../css/Fonts.css";
 
-import Card from "../elements/Card";
+import Card from "../elements/common/Card";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

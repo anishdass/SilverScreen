@@ -2,6 +2,7 @@ import "../css/Home.css";
 import { useMovieContext } from "../contexts/MovieContext";
 import MoviePage from "../components/MoviePage";
 import { useEffect } from "react";
+import NoMovie from "../elements/common/NoMovie";
 
 function Favorites() {
   const { favorites, setMovies, setTotalResults, setLoading, totalResults } =
@@ -16,7 +17,7 @@ function Favorites() {
     loadFavoriteMovies();
   }, []);
 
-  if (favorites.length > 0)
+  if (favorites.length > 0) {
     return (
       <>
         <div className='movie-grid-heading'>
@@ -30,6 +31,9 @@ function Favorites() {
         </div>
       </>
     );
+  } else {
+    return <NoMovie page={"Favorites"} />;
+  }
 }
 
 export default Favorites;

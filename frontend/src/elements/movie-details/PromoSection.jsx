@@ -1,5 +1,5 @@
-import { useMovieContext } from "../contexts/MovieContext";
-import "../css/PromoSection.css";
+import { useMovieContext } from "../../contexts/MovieContext";
+import "../../css/PromoSection.css";
 
 function PromoSection() {
   const { videos } = useMovieContext();

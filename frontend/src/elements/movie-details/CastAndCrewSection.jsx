@@ -1,13 +1,14 @@
-import "../css/CastAndCrewSection.css";
-import Card from "../elements/Card";
-import { getCastInfo } from "../utils/APIHelper";
+import "../../css/CastAndCrewSection.css";
+import Card from "../common/Card";
+import { getCastInfo } from "../../utils/APIHelper";
 import { useNavigate } from "react-router-dom";
 
 function CastAndCrewSection({ title, data }) {
   const navigate = useNavigate();
 
-  const onCastCardClicked = async (id) => {
-    const castData = await getCastInfo(id);
+  const onCastCardClicked = async (data) => {
+    console.log("id", data.id);
+    const castData = await getCastInfo(data.id);
     sessionStorage.setItem("castInfo", JSON.stringify(castData));
     navigate(`/cast/${castData.id}`);
   };
@@ -23,14 +24,7 @@ function CastAndCrewSection({ title, data }) {
           )
           .map((member) => (
             <div className='card-container' key={member.id}>
-              <Card data={member} />
-              <div
-                className='overlay'
-                onClick={() => onCastCardClicked(member.id)}>
-                <span className='overlay-text'>
-                  {member.cast_id ? member.name : member.job}
-                </span>{" "}
-              </div>
+              <Card data={member} onCardClicked={onCastCardClicked} />
             </div>
           ))}
       </div>

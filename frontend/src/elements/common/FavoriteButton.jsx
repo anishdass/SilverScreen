@@ -1,6 +1,6 @@
-import { useMovieContext } from "../contexts/MovieContext";
-import HeartIcon from "../icons/HeartIcon";
-import "../css/FavoriteButton.css";
+import { useMovieContext } from "../../contexts/MovieContext";
+import HeartIcon from "../../icons/HeartIcon";
+import "../../css/FavoriteButton.css";
 
 function FavoriteButton({ movie }) {
   const { isFavorite, addToFavorites, removeFromFavorites, handleAction } =

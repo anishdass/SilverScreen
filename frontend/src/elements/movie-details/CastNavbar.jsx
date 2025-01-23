@@ -1,9 +1,9 @@
 import { Tab, Nav } from "react-bootstrap";
-import PromoSection from "../components/PromoSection";
-import MoreInformationSection from "../components/MoreInformationSection";
-import CastAndCrewSection from "../components/CastAndCrewSection";
-import Card from "../elements/Card";
-import { getKeywords, getMovieDetails } from "../utils/APIHelper";
+import PromoSection from "./PromoSection";
+import MoreInformationSection from "./MoreInformationSection";
+import CastAndCrewSection from "./CastAndCrewSection";
+import Card from "../common/Card";
+import { getKeywords, getMovieDetails } from "../../utils/APIHelper";
 import { useNavigate } from "react-router-dom";
 
 function CastNavbar({
@@ -12,7 +12,7 @@ function CastNavbar({
   movie,
   similarMovies,
   moviesInCollection,
-  ratingsData,
+  extraInfo,
 }) {
   const navigate = useNavigate();
   const onMovieCardClicked = async (movie) => {
@@ -99,7 +99,7 @@ function CastNavbar({
             </div>
           </Tab.Pane>
           <Tab.Pane eventKey='more'>
-            <MoreInformationSection movie={movie} ratingsData={ratingsData} />
+            <MoreInformationSection movie={movie} extraInfo={extraInfo} />
           </Tab.Pane>
         </Tab.Content>
       </div>

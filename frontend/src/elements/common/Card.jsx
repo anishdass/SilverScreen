@@ -4,8 +4,8 @@ import {
   DEFAULT_PROFILE_IMAGE,
   DEFAULT_POSTER_IMAGE,
   IMAGE_PATH_KEY,
-} from "../utils/constants";
-import "../css/Card.css";
+} from "../../utils/constants";
+import "../../css/Card.css";
 
 function Card({ data, onCardClicked, cardType }) {
   const DEFAULT_IMAGE = cardType ? DEFAULT_POSTER_IMAGE : DEFAULT_PROFILE_IMAGE;
@@ -23,8 +23,9 @@ function Card({ data, onCardClicked, cardType }) {
         src={imageUrl}
         alt={data.title || data.name || "Untitled"}
       />
+      <h4 className='card-title'>{data.title || data.name || "Untitled"}</h4>
       <h4 className='card-title'>
-        {data.title || data.character || data.name || "Untitled"}
+        {data.cast_id ? `as ${data.character}` : data.job}
       </h4>
     </div>
   );

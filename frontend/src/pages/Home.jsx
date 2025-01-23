@@ -19,12 +19,11 @@ function Home() {
     const loadPopularMovies = async () => {
       try {
         setGenreClicked("");
+        setError("");
         const popularMovies = await searchPopularMovies(currentPage);
         setTotalResults(popularMovies.total_results);
         setMovies(popularMovies.data);
       } catch (e) {
-        console.log(e);
-
         setError("Failed to load movies");
       } finally {
         setLoading(false);

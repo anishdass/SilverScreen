@@ -79,7 +79,7 @@ export function getArtistFilmography(castId) {
   return fetchData(baseUrl);
 }
 
-export function getRatingArray(movieTitle, type, year) {
+export function getExtraInfo(movieTitle, type, year) {
   const baseUrl = `${OMDB_BASE_URL}/?apikey=${OMDB_API_KEY}&t=${movieTitle}&type=${type}&y=${year}`;
   return fetchData(baseUrl);
 }
@@ -94,8 +94,9 @@ export function getKeywords(movieId) {
   return fetchData(baseUrl);
 }
 
-export function getSimilarMovies(movieId, page = 1) {
-  const baseUrl = `${TMDB_BASE_URL}/movie/${movieId}/similar?api_key=${TMDB_API_KEY}&language=en-US&page=${page}`;
+export function getSimilarMovies(genre_string, keywords_string, page = 1) {
+  const baseUrl = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&language=${LANG}&sort_by=popularity.desc&with_genres=${genre_string}&with_keywords=${keywords_string}&page=${page}`;
+  console.log(baseUrl);
   return fetchSimilarMoviesSortedByPopularity(baseUrl);
 }
 

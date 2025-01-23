@@ -1,6 +1,7 @@
+import "../../css/CommentBox.css";
+
 import { useState } from "react";
-import "../css/CommentBox.css";
-import { storeComment } from "../utils/helper";
+import { storeComment } from "../../utils/helper";
 
 function CommentBox({ label, rows, placeholderText, movie }) {
   const [comment, setComment] = useState("");

@@ -1,9 +1,9 @@
 import React from "react";
-import "../css/MoreInformationSection.css";
-import GenreButton from "../elements/GenreButton";
+import "../../css/MoreInformationSection.css";
+import GenreButton from "./GenreButton";
 
-function MoreInformationSection({ movie, ratingsData }) {
-  if (!ratingsData || ratingsData.Response === "False") {
+function MoreInformationSection({ movie, extraInfo }) {
+  if (!extraInfo || extraInfo.Response === "False") {
     return <p className='no-info-text'>No information available.</p>;
   }
 
@@ -13,12 +13,12 @@ function MoreInformationSection({ movie, ratingsData }) {
         <table className='info-table'>
           <tbody>
             {/* Released Date */}
-            {ratingsData.Released && (
+            {extraInfo.Released && (
               <tr>
                 <td>
                   <strong>Released:</strong>
                 </td>
-                <td>{ratingsData.Released}</td>
+                <td>{extraInfo.Released}</td>
               </tr>
             )}
 
@@ -43,12 +43,12 @@ function MoreInformationSection({ movie, ratingsData }) {
             )}
 
             {/* Country */}
-            {ratingsData.Country && (
+            {extraInfo.Country && (
               <tr>
                 <td>
                   <strong>Country:</strong>
                 </td>
-                <td>{ratingsData.Country}</td>
+                <td>{extraInfo.Country}</td>
               </tr>
             )}
 

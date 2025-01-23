@@ -1,6 +1,6 @@
-import { useMovieContext } from "../contexts/MovieContext";
-import "../css/WatchlistButton.css";
-import WatchIcon from "../icons/WatchIcon";
+import { useMovieContext } from "../../contexts/MovieContext";
+import "../../css/WatchlistButton.css";
+import WatchIcon from "../../icons/WatchIcon";
 
 function WatchlistButton({ movie }) {
   const { isInWatchlist, addToWatchlist, removeFromWatchlist, handleAction } =

@@ -1,0 +1,22 @@
+.star-container {
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.star-icon {
+  fill: #ddd; /* Default empty color */
+  transition: fill 0.3s ease;
+}
+
+.star-icon.full {
+  fill: #ffc107; /* Full star color */
+}
+
+.star-icon.half {
+  fill: url(#half-gradient); /* Optional for half-star effect */
+}
+
+.star-icon.empty {
+  fill: #ddd; /* Empty star color */
+}

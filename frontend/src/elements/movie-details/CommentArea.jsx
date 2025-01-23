@@ -1,9 +1,10 @@
-import "../css/CommentArea.css";
-import LikeButton from "../elements/LikeButton";
-import DislikeButton from "../elements/DislikeButton";
-import { DEFAULT_PROFILE_IMAGE } from "../utils/constants";
-import Divider from "./Divider";
-import { getCommentAndTimeSinceUpdate } from "../utils/helper";
+import "../../css/CommentArea.css";
+
+import LikeButton from "../common/LikeButton";
+import DislikeButton from "../common/DislikeButton";
+import { DEFAULT_PROFILE_IMAGE } from "../../utils/constants";
+import Divider from "../common/Divider";
+import { getCommentAndTimeSinceUpdate } from "../../utils/helper";
 
 function CommentArea({ username, movie }) {
   const { comment, timeSinceUpdate } = getCommentAndTimeSinceUpdate(movie);
