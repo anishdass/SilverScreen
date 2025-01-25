@@ -9,18 +9,13 @@ function SearchComponent() {
   const handleSearch = (e) => {
     e.preventDefault();
 
-    // Ensure the search query is not empty or whitespace
     if (!searchQuery.trim()) {
       alert("Please enter a valid search query.");
       return;
     }
-
-    // Prevent navigation if loading
     if (loading) {
       return;
     }
-
-    // Navigate to the search results page
     navigate(`/movies/search/searchQuery/${searchQuery}`);
   };
 
@@ -32,7 +27,7 @@ function SearchComponent() {
         placeholder='Search for movies'
         aria-label='Search'
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value.trimStart())} // Prevent leading spaces
+        onChange={(e) => setSearchQuery(e.target.value.trimStart())}
       />
       <button
         className='btn btn-outline-success'

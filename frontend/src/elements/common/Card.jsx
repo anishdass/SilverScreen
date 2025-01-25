@@ -24,9 +24,11 @@ function Card({ data, onCardClicked, cardType }) {
         alt={data.title || data.name || "Untitled"}
       />
       <h4 className='card-title'>{data.title || data.name || "Untitled"}</h4>
-      <h4 className='card-title'>
-        {data.cast_id ? `as ${data.character}` : data.job}
-      </h4>
+      {(data.character || data.job) && (
+        <h4 className='card-title'>
+          {data.character ? `as ${data.character}` : data.known_for_department}
+        </h4>
+      )}
     </div>
   );
 }

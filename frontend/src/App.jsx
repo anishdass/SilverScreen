@@ -10,6 +10,9 @@ import Navbar from "./elements/Navbar";
 import SearchByGenre from "./pages/SearchByGenre";
 import SearchByQuery from "./pages/SearchByQuery";
 import SearchByKeyword from "./pages/SearchByKeyword";
+import SearchByLanguage from "./pages/SearchByLanguage";
+import SearchByRating from "./pages/SearchByRating";
+import SearchByYear from "./pages/SearchByYear";
 import Collection from "./pages/Collection";
 import Cast from "./pages/Cast";
 import Login from "./pages/Login";
@@ -34,13 +37,22 @@ function App() {
             element={<SearchByGenre />}
           />
           <Route
-            path='/movies/search/keyword/:genre'
+            path='/movies/search/keyword/:keyword'
             element={<SearchByKeyword />}
           />
           <Route
-            path='/movies/search/searchQuery/:id'
+            path='/movies/search/searchQuery/:string'
             element={<SearchByQuery />}
           />
+          <Route
+            path='/movies/search/language/:language'
+            element={<SearchByLanguage />}
+          />
+          <Route
+            path='/movies/search/rating/:rating'
+            element={<SearchByRating />}
+          />
+          <Route path='/movies/search/year/:year' element={<SearchByYear />} />
           <Route path='/cast/:castId' element={<Cast />} />
         </Routes>
       </main>

@@ -1,10 +1,10 @@
-function PillButton({ data, handleGenreSearch }) {
+function PillButton({ data, handleClick }) {
   return (
     <button
       key={data}
       className='btn btn-dark rounded-pill pill-button'
-      onClick={handleGenreSearch ? () => handleGenreSearch(data) : null}
-      disabled={!handleGenreSearch}>
+      onClick={handleClick ? () => handleClick(data) : null}
+      disabled={!handleClick}>
       {data}
     </button>
   );

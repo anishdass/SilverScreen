@@ -1,10 +1,18 @@
-import { IMAGE_BASE_URL, BACKDROP_PATH_KEY } from "../../utils/constants";
+import {
+  IMAGE_BASE_URL,
+  BACKDROP_PATH_KEY,
+  DEFAULT_BACKDROP_IMAGE,
+} from "../../utils/constants";
 
 function BackdropImage({ movie }) {
   return (
     <div className='backdrop-img'>
       <img
-        src={`${IMAGE_BASE_URL}w1280${movie[BACKDROP_PATH_KEY] || ""}`}
+        src={
+          movie[BACKDROP_PATH_KEY]
+            ? `${IMAGE_BASE_URL}w1280${movie[BACKDROP_PATH_KEY]}`
+            : DEFAULT_BACKDROP_IMAGE
+        }
         alt={`${movie.title || "Movie"} Backdrop`}
       />
     </div>

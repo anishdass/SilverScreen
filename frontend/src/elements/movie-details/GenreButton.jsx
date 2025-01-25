@@ -3,10 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useMovieContext } from "../../contexts/MovieContext";
 
 function GenreButton({ genreObj, type }) {
-  console.log(
-    "genreObj",
-    genreObj.map((genre) => genre.name)
-  );
   const { setGenreClicked, setGenreId } = useMovieContext();
 
   const navigate = useNavigate();
@@ -32,7 +28,11 @@ function GenreButton({ genreObj, type }) {
     <>
       {genres &&
         genres.map((genre) => (
-          <PillButton data={genre} handleGenreSearch={handleGenreSearch} />
+          <PillButton
+            key={genre.id}
+            data={genre}
+            handleClick={handleGenreSearch}
+          />
         ))}
     </>
   );

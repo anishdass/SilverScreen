@@ -15,6 +15,9 @@ export const MovieProvider = ({ children }) => {
   const [genreId, setGenreId] = useState(1);
   const [videos, setVideos] = useState([]);
   const [streamingData, setStreamingData] = useState({});
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedRating, setSelectedRating] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
 
   const useLocalStorage = (key, initialValue) => {
     const [value, setValue] = useState(() => {
@@ -116,6 +119,12 @@ export const MovieProvider = ({ children }) => {
     streamingData,
     setStreamingData,
     handleAction,
+    selectedLanguage,
+    setSelectedLanguage,
+    selectedRating,
+    setSelectedRating,
+    selectedYear,
+    setSelectedYear,
   };
 
   return (

@@ -34,6 +34,10 @@
   border-radius: 12px;
 }
 
+.watched {
+  opacity: 0.2;
+}
+
 .movie-card:hover {
   transform: translateY(-5px);
 }

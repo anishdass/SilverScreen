@@ -10,13 +10,15 @@ import { useMovieContext } from "../contexts/MovieContext";
 
 //Importing helpers
 import {
-  getVideoDetails,
+  getTrailerDetails,
   getCastAndCrewDetails,
   getStreamingDetails,
   getCurrentCountry,
   getExtraInfo,
   getSimilarMovies,
   getCollectionDetails,
+  getReviewDetails,
+  getWikiData,
 } from "../utils/APIHelper";
 
 import { getRatingsArray } from "../utils/helper";
@@ -39,7 +41,10 @@ function MovieDetails() {
   const [ratingsArray, setRatingsArray] = useState("");
   const [similarMovies, setSimilarMovies] = useState([]);
   const [moviesInCollection, setMoviesInCollection] = useState([]);
-  const { setLoading, setError, setVideos, streamingData, setStreamingData } =
+  const [trailers, setTrailers] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [plot, setPlot] = useState([]);
+  const { setLoading, setError, streamingData, setStreamingData } =
     useMovieContext();
 
   useEffect(() => {
@@ -51,17 +56,18 @@ function MovieDetails() {
 
       setLoading(true);
       try {
-        // Fetch data in parallel where possible
         const [
-          videos,
+          trailers,
           castCrew,
           streaming,
           country,
           extraInfo,
           similarMovies,
           moviesInCollectionDetails,
+          reviews,
+          plot,
         ] = await Promise.all([
-          getVideoDetails(movie.id),
+          getTrailerDetails(movie.id),
           getCastAndCrewDetails(movie.id),
           getStreamingDetails(movie.id),
           getCurrentCountry(),
@@ -71,9 +77,14 @@ function MovieDetails() {
           movie.belongs_to_collection
             ? getCollectionDetails(movie.belongs_to_collection.id)
             : Promise.resolve(null),
+          getReviewDetails(
+            movie.title.replace(/ /g, "+"),
+            movie.release_date.split("-")[0]
+          ),
+          getWikiData(movie.title.replace(/ /g, "+")),
         ]);
 
-        setVideos(videos);
+        setTrailers(trailers);
         setCasts(castCrew?.cast || []);
         setCrew(castCrew?.crew || []);
         setStreamingData(streaming || {});
@@ -85,6 +96,8 @@ function MovieDetails() {
 
         setSimilarMovies(similarMovies);
         setMoviesInCollection(moviesInCollectionDetails?.parts || []);
+        setReviews(reviews.items);
+        setPlot(plot);
       } catch (error) {
         setError("Failed to load data");
         console.error("Error loading movie details:", error);
@@ -94,7 +107,9 @@ function MovieDetails() {
     };
 
     loadData();
-  }, [movie.id, setLoading, setError, setVideos, setStreamingData]);
+  }, [movie.id, setLoading, setError, setTrailers, setStreamingData]);
+
+  console.log(plot);
 
   return (
     <>
@@ -122,10 +137,14 @@ function MovieDetails() {
             similarMovies={similarMovies}
             moviesInCollection={moviesInCollection}
             extraInfo={extraInfo}
+            trailers={trailers}
+            reviews={reviews}
           />
         </div>
 
         <Divider />
+
+        <div className='user-comments'></div>
 
         <CommentArea movie={movie} />
 

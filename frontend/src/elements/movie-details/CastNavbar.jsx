@@ -1,10 +1,11 @@
 import { Tab, Nav } from "react-bootstrap";
-import PromoSection from "./PromoSection";
+import VideoSection from "./PromoSection";
 import MoreInformationSection from "./MoreInformationSection";
 import CastAndCrewSection from "./CastAndCrewSection";
 import Card from "../common/Card";
 import { getKeywords, getMovieDetails } from "../../utils/APIHelper";
 import { useNavigate } from "react-router-dom";
+import MovieCard from "../../components/MovieCard";
 
 function CastNavbar({
   casts,
@@ -13,8 +14,11 @@ function CastNavbar({
   similarMovies,
   moviesInCollection,
   extraInfo,
+  trailers,
+  reviews,
 }) {
   const navigate = useNavigate();
+
   const onMovieCardClicked = async (movie) => {
     try {
       let selectedMovie = await getMovieDetails(movie.id);
@@ -28,31 +32,48 @@ function CastNavbar({
       console.error("Error fetching movie details:", error);
     }
   };
+
   return (
     <Tab.Container defaultActiveKey='cast'>
       <div className='movie-details-tabs'>
         <Nav variant='tabs' className='justify-content-center mb-4'>
+          {/* Cast */}
           {casts.length > 0 && (
             <Nav.Item>
               <Nav.Link eventKey='cast'>Cast</Nav.Link>
             </Nav.Item>
           )}
+
+          {/* Crew */}
           {crewMembers.length > 0 && (
             <Nav.Item>
               <Nav.Link eventKey='crew'>Crew</Nav.Link>
             </Nav.Item>
           )}
-          <Nav.Item>
-            <Nav.Link eventKey='promo'>Promotions</Nav.Link>
-          </Nav.Item>
+
+          {/* Promo */}
+          {trailers && trailers.length > 0 && (
+            <Nav.Item>
+              <Nav.Link eventKey='promo'>Promotions</Nav.Link>
+            </Nav.Item>
+          )}
+
           <Nav.Item>
             <Nav.Link eventKey='similar-movies'>Similar Movies</Nav.Link>
           </Nav.Item>
+
           {movie.belongs_to_collection && (
             <Nav.Item>
               <Nav.Link eventKey='collection'>Collection</Nav.Link>
             </Nav.Item>
           )}
+
+          {reviews && reviews.length > 0 && (
+            <Nav.Item>
+              <Nav.Link eventKey='reviews'>Reviews</Nav.Link>
+            </Nav.Item>
+          )}
+
           <Nav.Item>
             <Nav.Link eventKey='more'>Other</Nav.Link>
           </Nav.Item>
@@ -70,21 +91,18 @@ function CastNavbar({
             </Tab.Pane>
           )}
           <Tab.Pane eventKey='promo'>
-            <PromoSection />
+            <VideoSection videos={trailers} />
           </Tab.Pane>
+
           <Tab.Pane eventKey='similar-movies'>
             <div className='d-flex flex-row overflow-auto'>
               {similarMovies &&
                 similarMovies.map((movie) => (
-                  <Card
-                    data={movie}
-                    onCardClicked={onMovieCardClicked}
-                    cardType='poster'
-                    key={movie.id}
-                  />
+                  <MovieCard movie={movie} key={movie.id} />
                 ))}
             </div>
           </Tab.Pane>
+
           <Tab.Pane eventKey='collection'>
             <div className='d-flex flex-row overflow-auto'>
               {moviesInCollection &&
@@ -98,6 +116,11 @@ function CastNavbar({
                 ))}
             </div>
           </Tab.Pane>
+
+          <Tab.Pane eventKey='reviews'>
+            <VideoSection videos={reviews} />
+          </Tab.Pane>
+
           <Tab.Pane eventKey='more'>
             <MoreInformationSection movie={movie} extraInfo={extraInfo} />
           </Tab.Pane>

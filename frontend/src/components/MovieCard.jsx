@@ -6,8 +6,10 @@ import FavoriteButton from "../elements/common/FavoriteButton";
 import WatchedButton from "../elements/common/WatchedButton";
 import WatchlistButton from "../elements/common/WatchlistButton";
 import Card from "../elements/common/Card";
+import { useMovieContext } from "../contexts/MovieContext";
 
 function MovieCard({ movie }) {
+  const { isWatched } = useMovieContext();
   const navigate = useNavigate();
 
   if (!movie || !movie.id || !movie.title) return null;
@@ -26,8 +28,12 @@ function MovieCard({ movie }) {
     }
   };
 
+  console.log(`${isWatched(movie.id)} ? "watched" : ""`);
+
   return (
-    <div className='movie-card' onClick={onMovieCardClicked}>
+    <div
+      className={`movie-card ${isWatched(movie.id) ? "watched" : ""}`}
+      onClick={onMovieCardClicked}>
       <Card data={movie} cardType={"Poster"} />
       <div className='movie-overlay'>
         <div className='action-buttons'>

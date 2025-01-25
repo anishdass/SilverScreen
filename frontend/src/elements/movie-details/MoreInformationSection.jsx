@@ -3,10 +3,6 @@ import "../../css/MoreInformationSection.css";
 import GenreButton from "./GenreButton";
 
 function MoreInformationSection({ movie, extraInfo }) {
-  if (!extraInfo || extraInfo.Response === "False") {
-    return <p className='no-info-text'>No information available.</p>;
-  }
-
   return (
     <div className='more-information-section'>
       <div className='container'>
@@ -23,22 +19,22 @@ function MoreInformationSection({ movie, extraInfo }) {
             )}
 
             {/* Budget */}
-            {movie.budget && movie.budget > 0 && (
+            {movie.budget > 0 && (
               <tr>
                 <td>
                   <strong>Budget:</strong>
                 </td>
-                <td>${movie.budget.toLocaleString()}</td>
+                <td>${Number(movie.budget).toLocaleString()}</td>
               </tr>
             )}
 
             {/* Revenue / Box Office */}
-            {movie.revenue && movie.revenue > 0 && (
+            {movie.revenue > 0 && (
               <tr>
                 <td>
                   <strong>Box Office:</strong>
                 </td>
-                <td>${movie.revenue.toLocaleString()}</td>
+                <td>${Number(movie.revenue).toLocaleString()}</td>
               </tr>
             )}
 

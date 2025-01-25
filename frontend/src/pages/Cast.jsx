@@ -1,12 +1,11 @@
 import "../css/Cast.css";
 import "../css/Fonts.css";
 
-import Card from "../elements/common/Card";
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tab, Nav } from "react-bootstrap";
 import { useMovieContext } from "../contexts/MovieContext";
+import MovieCard from "../components/MovieCard";
 
 import {
   IMAGE_BASE_URL,
@@ -14,14 +13,17 @@ import {
   DEFAULT_PROFILE_IMAGE,
 } from "../utils/constants";
 
-import { getArtistFilmography } from "../utils/APIHelper";
+import {
+  getArtistFilmography,
+  getMovieDetails,
+  getKeywords,
+} from "../utils/APIHelper";
 import { getJobList } from "../utils/helper";
 
 function Cast() {
   const { setLoading, setError } = useMovieContext();
   const [artistAsCast, setArtistAsCast] = useState([]);
   const [artistAsCrew, setArtistAsCrew] = useState([]);
-  const [activeJob, setActiveJob] = useState("");
   const [defaultKey, setDefaultKey] = useState(null); // Track the default active key
   const castInfo = JSON.parse(sessionStorage.getItem("castInfo")) || {};
   const navigate = useNavigate();
@@ -40,7 +42,6 @@ function Cast() {
           setDefaultKey("cast");
         } else if (uniqueJobs.length > 0) {
           setDefaultKey(uniqueJobs[0]);
-          setActiveJob(uniqueJobs[0]); // Set active job explicitly
         } else {
           setDefaultKey(null); // Fallback for no data
         }
@@ -54,8 +55,19 @@ function Cast() {
     if (castInfo.id) loadData();
   }, [castInfo.id, setLoading, setError]);
 
-  const onMovieCardClicked = (movie) =>
-    navigate(`/movies/${movie.id}`, { state: { movie } });
+  const onMovieCardClicked = async (movie) => {
+    try {
+      let selectedMovie = await getMovieDetails(movie.id);
+      const keywords = await getKeywords(movie.id);
+      const selectedMovieWithKeywords = { ...selectedMovie, ...keywords };
+      navigate(`/movies/${movie.id}`, {
+        state: { movie: selectedMovieWithKeywords },
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      console.error("Error fetching movie details:", error);
+    }
+  };
 
   const getYears = (movies, filterJob = null) =>
     [
@@ -74,12 +86,7 @@ function Cast() {
   const renderMovieCards = (movies) => (
     <div className='d-flex flex-row overflow-auto'>
       {movies.map((movie) => (
-        <Card
-          data={movie}
-          onCardClicked={onMovieCardClicked}
-          cardType='poster'
-          key={movie.id}
-        />
+        <MovieCard movie={movie} key={movie.id} />
       ))}
     </div>
   );

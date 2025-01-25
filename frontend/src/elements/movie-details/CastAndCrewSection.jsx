@@ -7,7 +7,6 @@ function CastAndCrewSection({ title, data }) {
   const navigate = useNavigate();
 
   const onCastCardClicked = async (data) => {
-    console.log("id", data.id);
     const castData = await getCastInfo(data.id);
     sessionStorage.setItem("castInfo", JSON.stringify(castData));
     navigate(`/cast/${castData.id}`);

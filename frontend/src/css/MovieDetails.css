@@ -56,6 +56,12 @@ body {
   color: #333;
 }
 
+.action-button {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
 .movie-info p {
   font-size: 1rem;
   color: #555;
@@ -115,7 +121,7 @@ body {
 .genre-section {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 2px;
 }
 
 .pill-button {
@@ -266,8 +272,13 @@ body {
 
 .movie-title-section {
   display: flex;
-  align-items: center;
   gap: 1rem;
+}
+
+.released-status {
+  margin-top: 15px;
+  width: 32px;
+  height: 32px;
 }
 
 .favorite-btn,
