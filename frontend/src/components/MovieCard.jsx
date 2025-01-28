@@ -19,6 +19,7 @@ function MovieCard({ movie }) {
       let selectedMovie = await getMovieDetails(movie.id);
       const keywords = await getKeywords(movie.id);
       const selectedMovieWithKeywords = { ...selectedMovie, ...keywords };
+
       navigate(`/movies/${movie.id}`, {
         state: { movie: selectedMovieWithKeywords },
       });
@@ -27,8 +28,6 @@ function MovieCard({ movie }) {
       console.error("Error fetching movie details:", error);
     }
   };
-
-  console.log(`${isWatched(movie.id)} ? "watched" : ""`);
 
   return (
     <div

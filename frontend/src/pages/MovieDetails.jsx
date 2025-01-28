@@ -33,7 +33,10 @@ import MoviePosterSection from "../elements/movie-details/MoviePosterSection";
 import MovieDetailsSection from "../elements/movie-details/MovieDetailsSection";
 
 function MovieDetails() {
+  const { setLoading, setError, streamingData, setStreamingData } =
+    useMovieContext();
   const { state: { movie } = {} } = useLocation();
+
   const [casts, setCasts] = useState([]);
   const [crewMembers, setCrew] = useState([]);
   const [currentCountry, setCurrentCountry] = useState([]);
@@ -43,17 +46,11 @@ function MovieDetails() {
   const [moviesInCollection, setMoviesInCollection] = useState([]);
   const [trailers, setTrailers] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const [plot, setPlot] = useState([]);
-  const { setLoading, setError, streamingData, setStreamingData } =
-    useMovieContext();
-
+  //  const [plot, setPlot] = useState([]);
+  const genres_string = movie.genres.map((genre) => genre.id).join("|");
+  const keywords_string = movie.keywords.map((keyword) => keyword.id).join("|");
   useEffect(() => {
     const loadData = async () => {
-      const genres_string = movie.genres.map((genre) => genre.id).join("|");
-      const keywords_string = movie.keywords
-        .map((keyword) => keyword.id)
-        .join("|");
-
       setLoading(true);
       try {
         const [
@@ -64,8 +61,8 @@ function MovieDetails() {
           extraInfo,
           similarMovies,
           moviesInCollectionDetails,
-          reviews,
-          plot,
+          // reviews,
+          // plot,
         ] = await Promise.all([
           getTrailerDetails(movie.id),
           getCastAndCrewDetails(movie.id),
@@ -73,15 +70,15 @@ function MovieDetails() {
           getCurrentCountry(),
           getExtraInfo(movie.title, "movie", movie.release_date.split("-")[0]),
 
-          getSimilarMovies(genres_string, keywords_string),
+          getSimilarMovies(movie.id, genres_string, keywords_string),
           movie.belongs_to_collection
             ? getCollectionDetails(movie.belongs_to_collection.id)
             : Promise.resolve(null),
-          getReviewDetails(
-            movie.title.replace(/ /g, "+"),
-            movie.release_date.split("-")[0]
-          ),
-          getWikiData(movie.title.replace(/ /g, "+")),
+          // getReviewDetails(
+          //   movie.title.replace(/ /g, "+"),
+          //   movie.release_date.split("-")[0]
+          // ),
+          // getWikiData(movie.title.replace(/ /g, "+")),
         ]);
 
         setTrailers(trailers);
@@ -96,8 +93,8 @@ function MovieDetails() {
 
         setSimilarMovies(similarMovies);
         setMoviesInCollection(moviesInCollectionDetails?.parts || []);
-        setReviews(reviews.items);
-        setPlot(plot);
+        // setReviews(reviews.items);
+        // setPlot(plot);
       } catch (error) {
         setError("Failed to load data");
         console.error("Error loading movie details:", error);
@@ -107,9 +104,19 @@ function MovieDetails() {
     };
 
     loadData();
-  }, [movie.id, setLoading, setError, setTrailers, setStreamingData]);
-
-  console.log(plot);
+  }, [
+    movie.id,
+    setLoading,
+    setError,
+    setTrailers,
+    setStreamingData,
+    setCurrentCountry,
+    setExtraInfo,
+    setRatingsArray,
+    setSimilarMovies,
+    setMoviesInCollection,
+    // setReviews,
+  ]);
 
   return (
     <>

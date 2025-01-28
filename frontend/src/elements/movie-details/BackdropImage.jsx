@@ -3,6 +3,7 @@ import {
   BACKDROP_PATH_KEY,
   DEFAULT_BACKDROP_IMAGE,
 } from "../../utils/constants";
+import { useMovieContext } from "../../contexts/MovieContext";
 
 function BackdropImage({ movie }) {
   return (

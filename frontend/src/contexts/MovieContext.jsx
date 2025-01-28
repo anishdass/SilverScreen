@@ -18,6 +18,7 @@ export const MovieProvider = ({ children }) => {
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedRating, setSelectedRating] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
+  const [selectedMovie, setSelectedMovie] = useState({});
 
   const useLocalStorage = (key, initialValue) => {
     const [value, setValue] = useState(() => {
@@ -125,6 +126,8 @@ export const MovieProvider = ({ children }) => {
     setSelectedRating,
     selectedYear,
     setSelectedYear,
+    selectedMovie,
+    setSelectedMovie,
   };
 
   return (

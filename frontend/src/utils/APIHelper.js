@@ -70,14 +70,13 @@ export function getTrailerDetails(movieId) {
 
 // Get popular reviews details
 export function getReviewDetails(movieName, movieYear) {
-  const baseUrl = `${YT_BASE_URL}/search?part=snippet&type=video&q=${movieName}+${movieYear}+review&maxResults=25&key=${YT_API_KEY}`;
+  const baseUrl = `${YT_BASE_URL}/search?part=snippet&type=video&q=${movieName}+${movieYear}+review&maxResults=10&key=${YT_API_KEY}`;
   return fetchData(baseUrl);
 }
 
 export function getWikiData(movieName) {
   const baseUrl = `${WIKI_BASE_URL}.php?action=query&format=json&titles=${movieName}&prop=extracts&explaintext`;
-  console.log(baseUrl);
-  // return fetchData(baseUrl);
+  return fetchData(baseUrl);
 }
 
 // Get Streaming Details
@@ -126,8 +125,13 @@ export function getKeywords(movieId) {
   return fetchData(baseUrl);
 }
 
-export function getSimilarMovies(genre_string, keywords_string, page = 1) {
-  const baseUrl = `${TMDB_BASE_URL}/discover/movie?api_key=${TMDB_API_KEY}&language=${LANG}&with_genres=${genre_string}&with_keywords=${keywords_string}&page=${page}`;
+export function getSimilarMovies(
+  movieId,
+  genre_string,
+  keywords_string,
+  page = 1
+) {
+  const baseUrl = `${TMDB_BASE_URL}/movie/${movieId}/recommendations?api_key=${TMDB_API_KEY}&with_genres=${genre_string}&with_keywords=${keywords_string}&page=${page}`;
   return fetchSimilarMoviesSortedByPopularity(baseUrl);
 }
 

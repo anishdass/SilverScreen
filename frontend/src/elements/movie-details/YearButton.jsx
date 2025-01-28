@@ -1,12 +1,16 @@
 import PillButton from "../common/PillButton";
-
-async function handleYearSearch(e) {
-  const selectedYear = e;
-  setSelectedYear(selectedYear);
-  navigate(`/movies/search/year/${selectedYear}`);
-}
+import { useMovieContext } from "../../contexts/MovieContext";
+import { useNavigate } from "react-router-dom";
 
 function YearButton({ extraInfo, movie }) {
+  const { setSelectedYear } = useMovieContext();
+  const navigate = useNavigate();
+
+  const handleYearSearch = (selectedYear) => {
+    setSelectedYear(selectedYear);
+    navigate(`/movies/search/year/${selectedYear}`);
+  };
+
   return (
     <>
       {extraInfo?.Year ? (

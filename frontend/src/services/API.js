@@ -76,9 +76,7 @@ export const fetchSimilarMoviesSortedByPopularity = async (url) => {
     const response = await axios.get(url);
     const movies = response.data.results;
 
-    const sortedMovies = movies.sort((a, b) => b.popularity - a.popularity);
-
-    return sortedMovies;
+    return movies;
   } catch (error) {
     console.error("Error fetching similar movies:", error);
     return [];
